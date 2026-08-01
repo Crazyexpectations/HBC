@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useRef } from 'react';
 import { motion, type Variants } from 'framer-motion';
 import { Sparkles } from '@react-three/drei';
 import Section from '../layout/Section';
@@ -7,6 +7,7 @@ import GiftBoxDecorative from '../three/GiftBoxDecorative';
 import FloatingEmojis from '../ui/FloatingEmojis';
 import RoamingCat from '../cats/RoamingCat';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { useScrollParallax } from '../../hooks/useScrollParallax';
 import { HER_NAME } from '../../content';
 
 const title = 'Happy Birthday';
@@ -28,10 +29,12 @@ const letterVariants: Variants = {
 
 export default function HeroSection() {
   const isMobile = useIsMobile();
+  const sceneRef = useRef<HTMLDivElement>(null);
+  useScrollParallax(sceneRef, 90, isMobile);
 
   return (
     <Section id="hero" bgClassName="bg-gradient-to-b from-midnight-deep via-midnight-soft to-midnight">
-      <div className="absolute inset-0">
+      <div ref={sceneRef} className="absolute inset-0">
         <SceneCanvas camera={{ position: [0, 0.3, 5.2], fov: 45 }}>
           <Suspense fallback={null}>
             <ambientLight intensity={0.5} />

@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { motion } from 'framer-motion';
 import Section from '../layout/Section';
 import StarsCss from '../ui/StarsCss';
@@ -5,11 +6,14 @@ import FloatingEmojis from '../ui/FloatingEmojis';
 import RoamingCat from '../cats/RoamingCat';
 import { useLenisInstance } from '../../lib/LenisProvider';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { useScrollParallax } from '../../hooks/useScrollParallax';
 import { ENDING } from '../../content';
 
 export default function EndingSection() {
   const lenis = useLenisInstance();
   const isMobile = useIsMobile();
+  const moonRef = useRef<HTMLDivElement>(null);
+  useScrollParallax(moonRef, -50, isMobile);
 
   const replay = () => {
     if (lenis) lenis.scrollTo(0, { duration: 2.2 });
@@ -22,6 +26,7 @@ export default function EndingSection() {
 
       {/* moon */}
       <div
+        ref={moonRef}
         className="pointer-events-none absolute -right-6 -top-6 h-32 w-32 rounded-full sm:-right-10 sm:-top-10 sm:h-56 sm:w-56 md:h-72 md:w-72"
         style={{
           background: 'radial-gradient(circle at 35% 35%, #fff6f0, #ffe3a3 45%, transparent 70%)',
