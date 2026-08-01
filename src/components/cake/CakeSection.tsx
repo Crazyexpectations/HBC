@@ -7,9 +7,12 @@ import Cake3D from './Cake3D';
 import { useAppStore } from '../../store/useAppStore';
 import { useMicBlow } from '../../hooks/useMicBlow';
 import { launchFireworks } from '../../lib/fireworks';
+import { useIsMobile } from '../../hooks/useIsMobile';
+import RoamingCat from '../cats/RoamingCat';
 import { CAKE } from '../../content';
 
 export default function CakeSection() {
+  const isMobile = useIsMobile();
   const candlesLit = useAppStore((s) => s.candlesLit);
   const extinguishAll = useAppStore((s) => s.extinguishAll);
   const cakeCompleted = useAppStore((s) => s.cakeCompleted);
@@ -57,7 +60,7 @@ export default function CakeSection() {
             <pointLight position={[3, 4, 3]} intensity={0.9} color="#ffe3a3" />
             <pointLight position={[-3, 2, 3]} intensity={0.5} color="#ffb6c9" />
             <directionalLight position={[-2, 3, 2]} intensity={0.5} />
-            <Sparkles count={40} scale={4} size={2.5} speed={0.3} color="#ffd27a" opacity={0.5} />
+            <Sparkles count={isMobile ? 12 : 25} scale={4} size={2.5} speed={0.3} color="#ffd27a" opacity={0.5} />
             <Cake3D />
           </Suspense>
         </SceneCanvas>
@@ -103,6 +106,8 @@ export default function CakeSection() {
           )}
         </AnimatePresence>
       </div>
+
+      <RoamingCat palette="cream" bottom={14} duration={24} delay={4} size={40} />
     </Section>
   );
 }

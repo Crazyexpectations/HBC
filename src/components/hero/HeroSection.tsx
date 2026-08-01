@@ -1,15 +1,20 @@
 import { Suspense } from 'react';
 import { motion, type Variants } from 'framer-motion';
 import { Sparkles } from '@react-three/drei';
-import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import Section from '../layout/Section';
 import SceneCanvas from '../three/SceneCanvas';
 import GiftBoxDecorative from '../three/GiftBoxDecorative';
 import FloatingEmojis from '../ui/FloatingEmojis';
+import RoamingCat from '../cats/RoamingCat';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { HER_NAME } from '../../content';
 
 const title = 'Happy Birthday';
+const titleWords = title.split(' ').reduce<{ word: string; startIndex: number }[]>((acc, word) => {
+  const startIndex = acc.length ? acc[acc.length - 1].startIndex + acc[acc.length - 1].word.length + 1 : 0;
+  acc.push({ word, startIndex });
+  return acc;
+}, []);
 
 const letterVariants: Variants = {
   hidden: { y: 40, opacity: 0, rotateX: -60 },
@@ -34,21 +39,17 @@ export default function HeroSection() {
             <pointLight position={[-4, -2, -2]} intensity={0.6} color="#8a4fff" />
             <directionalLight position={[0, 5, 5]} intensity={0.5} color="#fff6f0" />
 
-            <GiftBoxDecorative position={[0, -1.35, -0.8]} scale={0.6} />
+            <GiftBoxDecorative position={isMobile ? [0, -2.3, -1.4] : [0, -1.35, -0.8]} scale={isMobile ? 0.4 : 0.6} />
 
-            <Sparkles count={isMobile ? 60 : 160} scale={9} size={2} speed={0.25} color="#ffffff" opacity={0.6} />
-            <Sparkles count={isMobile ? 20 : 50} scale={6} size={4} speed={0.6} color="#ffd27a" opacity={0.8} />
-
-            {!isMobile && (
-              <EffectComposer>
-                <Bloom intensity={0.65} luminanceThreshold={0.25} luminanceSmoothing={0.9} mipmapBlur />
-              </EffectComposer>
-            )}
+            <Sparkles count={isMobile ? 25 : 50} scale={9} size={2} speed={0.25} color="#ffffff" opacity={0.6} />
+            <Sparkles count={isMobile ? 8 : 18} scale={6} size={4} speed={0.6} color="#ffd27a" opacity={0.8} />
           </Suspense>
         </SceneCanvas>
       </div>
 
       <FloatingEmojis items={['🎈', '🎈', '🎈']} count={isMobile ? 6 : 12} minSize={30} maxSize={54} minDuration={12} maxDuration={22} />
+
+      <RoamingCat palette="ginger" bottom={18} duration={20} delay={3} size={44} />
 
       <div className="relative z-10 flex flex-col items-center text-center">
         <motion.p
@@ -61,20 +62,24 @@ export default function HeroSection() {
         </motion.p>
 
         <h1
-          className="text-glow font-display flex flex-wrap justify-center text-5xl font-extrabold text-cream sm:text-6xl md:text-7xl lg:text-8xl"
+          className="text-glow font-display flex flex-wrap justify-center gap-x-[0.25em] text-4xl font-extrabold text-cream sm:text-6xl md:text-7xl lg:text-8xl"
           style={{ perspective: 800 }}
         >
-          {title.split('').map((ch, i) => (
-            <motion.span
-              key={i}
-              custom={i}
-              variants={letterVariants}
-              initial="hidden"
-              animate="show"
-              className="inline-block"
-            >
-              {ch === ' ' ? ' ' : ch}
-            </motion.span>
+          {titleWords.map(({ word, startIndex }) => (
+            <span key={word} className="inline-flex whitespace-nowrap">
+              {word.split('').map((ch, i) => (
+                <motion.span
+                  key={i}
+                  custom={startIndex + i}
+                  variants={letterVariants}
+                  initial="hidden"
+                  animate="show"
+                  className="inline-block"
+                >
+                  {ch}
+                </motion.span>
+              ))}
+            </span>
           ))}
         </h1>
 

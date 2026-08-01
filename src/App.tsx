@@ -6,6 +6,7 @@ import MusicPlayer from './components/audio/MusicPlayer';
 import LoadingScreen from './components/loader/LoadingScreen';
 import GateScreen from './components/gate/GateScreen';
 import MainSite from './MainSite';
+import CursorCat from './components/cats/CursorCat';
 
 export default function App() {
   const phase = useAppStore((s) => s.phase);
@@ -14,6 +15,7 @@ export default function App() {
     <LenisProvider active={phase === 'site'}>
       <CustomCursor />
       <MusicPlayer />
+      {phase === 'site' && <CursorCat />}
       <AnimatePresence mode="wait">
         {phase === 'loading' && <LoadingScreen key="loading" />}
         {phase === 'gate' && <GateScreen key="gate" />}

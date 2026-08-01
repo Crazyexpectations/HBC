@@ -21,7 +21,7 @@ export default function SceneCanvas({ children, className = '', dpr, ...rest }: 
     if (!el) return;
     const obs = new IntersectionObserver(([entry]) => setVisible(entry.isIntersecting), {
       threshold: 0.05,
-      rootMargin: '10% 0px 10% 0px',
+      rootMargin: '0px',
     });
     obs.observe(el);
     return () => obs.disconnect();
@@ -31,7 +31,7 @@ export default function SceneCanvas({ children, className = '', dpr, ...rest }: 
     <div ref={containerRef} className={`absolute inset-0 ${className}`}>
       <Canvas
         frameloop={visible ? 'always' : 'never'}
-        dpr={dpr ?? (isMobile ? 1 : [1, 1.75])}
+        dpr={dpr ?? (isMobile ? 1 : [1, 1.5])}
         gl={{ antialias: !isMobile, alpha: true, powerPreference: 'high-performance' }}
         {...rest}
       >

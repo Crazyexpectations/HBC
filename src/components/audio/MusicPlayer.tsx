@@ -3,13 +3,17 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useAppStore } from '../../store/useAppStore';
 
 const BASE = import.meta.env.BASE_URL;
+const START_AT = 5; // seconds — skips the quiet intro, every time it (re)starts
 
 // Persistent floating pill that plays the song across the whole site once
 // the gate has been passed. Audio can only start from a real user gesture
 // (browser autoplay policy) — that gesture is the "Yes" click, which calls
 // startMusic() and sets musicPlaying true; this component just reacts to it.
+// Looping is handled manually (no `loop` attribute) so every repeat also
+// skips back to START_AT instead of replaying the intro each time.
 export default function MusicPlayer() {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const startedRef = useRef(false);
   const phase = useAppStore((s) => s.phase);
   const musicPlaying = useAppStore((s) => s.musicPlaying);
   const toggleMusic = useAppStore((s) => s.toggleMusic);
@@ -17,7 +21,22 @@ export default function MusicPlayer() {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
+    const handleEnded = () => {
+      audio.currentTime = START_AT;
+      audio.play().catch(() => {});
+    };
+    audio.addEventListener('ended', handleEnded);
+    return () => audio.removeEventListener('ended', handleEnded);
+  }, []);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
     if (musicPlaying) {
+      if (!startedRef.current) {
+        startedRef.current = true;
+        audio.currentTime = START_AT;
+      }
       audio.volume = 0;
       audio.play().catch(() => {});
       let v = 0;
@@ -36,7 +55,7 @@ export default function MusicPlayer() {
 
   return (
     <>
-      <audio ref={audioRef} src={`${BASE}audio/song.mp3`} loop preload="auto" />
+      <audio ref={audioRef} src={`${BASE}audio/song.mp3`} preload="auto" />
       <AnimatePresence>
         <motion.button
           data-cursor="hover"

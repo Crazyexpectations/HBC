@@ -77,6 +77,9 @@ export const ENDING = {
   replay: 'Watch it again',
 };
 
+// Click hint shown above the photo grid.
+export const MEMORIES_HINT = 'go ahead, click on a photo 💗';
+
 // Captions for each memory photo, in the same order as the files in "All images".
 // Feel free to rewrite every single one — these are placeholders.
 const DEFAULT_CAPTIONS = [
@@ -108,6 +111,35 @@ const DEFAULT_CAPTIONS = [
   'you and me, always',
   'a little piece of us',
   'here\'s to many more like this',
+  'young and in love',
+  'we were just getting started',
+  'you had my whole attention',
+  'that day felt like a movie',
+  'i still smile thinking about this',
+  'the good kind of chaos',
+  'my favorite kind of trouble',
+  'we look happy because we were',
+  'small moment, big memory',
+  'you, unfiltered',
+  'this is what home looks like',
+  'the beginning of something good',
+  'i knew even then',
+  'time flew when i was with you',
+  'this photo lives in my head rent free',
+  'a whole era, right here',
+  'us, before we knew what we had',
+  'still my favorite person',
+  'that day i fell a little harder',
+  'the way you look at the camera',
+  'nothing fancy, just us',
+  'i\'d relive this whole day',
+  'you make every photo better',
+  'this is the good stuff',
+  'proof i got lucky',
+  'you, in your natural habitat',
+  'a snapshot of us being happy',
+  'the best kind of ordinary',
+  'here\'s to us, always',
 ];
 
 export const MEMORIES = photoManifest.map((photo, i) => ({

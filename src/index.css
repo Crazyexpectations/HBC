@@ -72,6 +72,88 @@ body {
   }
 }
 
+/* Custom cursor: position (transform) is driven purely by GSAP every frame —
+   `transition` here intentionally only touches scale/color, never transform,
+   otherwise the two easing systems fight and the cursor feels laggy/mushy. */
+.cursor-ring,
+.cursor-dot {
+  transition: scale 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+.cursor-ring.cursor-hovering {
+  scale: 2.2;
+  background-color: rgba(255, 92, 138, 0.12);
+}
+.cursor-dot.cursor-hovering {
+  scale: 1.6;
+}
+
+@keyframes click-heart-pop {
+  0% { transform: translate(-50%, -50%) scale(0.4); opacity: 0.9; }
+  60% { transform: translate(-50%, -85%) scale(1.1); opacity: 0.9; }
+  100% { transform: translate(-50%, -120%) scale(0.9); opacity: 0; }
+}
+.click-heart {
+  position: fixed;
+  z-index: 9998;
+  pointer-events: none;
+  font-size: 18px;
+  animation: click-heart-pop 0.7s ease-out forwards;
+}
+
+/* --- cats ------------------------------------------------------------- */
+@keyframes cat-tail-swish {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-14deg); }
+}
+.cat-tail {
+  animation: cat-tail-swish 2.6s ease-in-out infinite;
+  transform-box: fill-box;
+}
+
+@keyframes cat-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+}
+.cat-eyes {
+  animation: cat-blink 4.5s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@keyframes cat-idle-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+.cat-idle-bob {
+  animation: cat-idle-bob 2.2s ease-in-out infinite;
+}
+
+@keyframes cat-bounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-6px) rotate(-4deg); }
+  50% { transform: translateY(0) rotate(0deg); }
+  75% { transform: translateY(-6px) rotate(4deg); }
+}
+.cat-bounce {
+  animation: cat-bounce 0.5s ease-in-out infinite;
+}
+
+@keyframes cat-pounce-kf {
+  0% { transform: scale(1, 1) translateY(0); }
+  30% { transform: scale(1.15, 0.85) translateY(0); }
+  55% { transform: scale(0.9, 1.15) translateY(-18px); }
+  80% { transform: scale(1.05, 0.95) translateY(0); }
+  100% { transform: scale(1, 1) translateY(0); }
+}
+.cat-pounce {
+  animation: cat-pounce-kf 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes cat-walk-across {
+  from { left: -80px; }
+  to { left: calc(100% + 80px); }
+}
+
 .font-display {
   font-family: var(--font-display);
 }

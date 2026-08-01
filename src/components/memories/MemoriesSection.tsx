@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import Section from '../layout/Section';
 import PolaroidCard from './PolaroidCard';
 import Lightbox from './Lightbox';
-import { MEMORIES } from '../../content';
+import RoamingCat from '../cats/RoamingCat';
+import { MEMORIES, MEMORIES_HINT } from '../../content';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -29,6 +30,13 @@ export default function MemoriesSection() {
         <p className="mb-2 text-xs uppercase tracking-[0.4em] text-rose-light/70">a little time capsule</p>
         <h2 className="font-display text-glow text-4xl font-bold text-cream sm:text-5xl">Our Memories</h2>
         <p className="mt-3 text-sm text-cream/60">every one of these is a day I'd relive on repeat</p>
+        <motion.p
+          animate={{ y: [0, -4, 0] }}
+          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+          className="glass mx-auto mt-5 inline-flex w-fit items-center gap-2 rounded-full px-4 py-2 text-xs font-medium text-rose-light"
+        >
+          <span aria-hidden>👆</span> {MEMORIES_HINT}
+        </motion.p>
       </motion.div>
 
       <div className="relative z-10 w-full max-w-6xl columns-2 gap-5 sm:columns-3 lg:columns-4">
@@ -45,6 +53,8 @@ export default function MemoriesSection() {
       </div>
 
       <Lightbox index={openIndex} onClose={() => setOpenIndex(null)} onNav={nav} />
+
+      <RoamingCat palette="tuxedo" bottom={16} duration={26} delay={5} size={44} />
     </Section>
   );
 }

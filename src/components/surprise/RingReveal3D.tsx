@@ -97,7 +97,7 @@ export default function RingReveal3D() {
         </mesh>
       </group>
 
-      {revealed && <Sparkles count={80} scale={2.4} size={3} speed={0.5} color="#ffe3a3" position={[0, 0.9, 0]} />}
+      {revealed && <Sparkles count={30} scale={2.4} size={3} speed={0.5} color="#ffe3a3" position={[0, 0.9, 0]} />}
     </group>
   );
 }

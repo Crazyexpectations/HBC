@@ -1,16 +1,13 @@
 import { Suspense } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import Section from '../layout/Section';
 import SceneCanvas from '../three/SceneCanvas';
 import RingReveal3D from './RingReveal3D';
 import { useAppStore } from '../../store/useAppStore';
-import { useIsMobile } from '../../hooks/useIsMobile';
 import { SURPRISE } from '../../content';
 
 export default function SurpriseSection() {
   const revealed = useAppStore((s) => s.ringRevealed);
-  const isMobile = useIsMobile();
 
   return (
     <Section id="surprise" bgClassName="bg-gradient-to-b from-midnight via-[#2a0e2e] to-midnight-deep">
@@ -44,11 +41,6 @@ export default function SurpriseSection() {
             <pointLight position={[-3, 1, -2]} intensity={0.5} color="#8a4fff" />
             <directionalLight position={[0, 4, 4]} intensity={0.4} />
             <RingReveal3D />
-            {!isMobile && (
-              <EffectComposer>
-                <Bloom intensity={0.5} luminanceThreshold={0.3} mipmapBlur />
-              </EffectComposer>
-            )}
           </Suspense>
         </SceneCanvas>
       </div>
