@@ -1,11 +1,13 @@
 import { motion } from 'framer-motion';
 import Section from '../layout/Section';
 import ReasonCard from './ReasonCard';
+import RoamingCat from '../cats/RoamingCat';
 import { REASONS } from '../../content';
 
 export default function ReasonsSection() {
   return (
     <Section id="reasons" bgClassName="bg-gradient-to-b from-midnight-deep via-midnight-soft to-midnight">
+      <RoamingCat palette="ginger" size={40} startDelay={4} />
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

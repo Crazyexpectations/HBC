@@ -96,7 +96,7 @@ export default function EndingSection() {
         </motion.button>
       </div>
 
-      <RoamingCat palette="charcoal" bottom={20} duration={28} delay={6} size={44} />
+      <RoamingCat palette="charcoal" size={44} startDelay={6} chasesCursor />
     </Section>
   );
 }

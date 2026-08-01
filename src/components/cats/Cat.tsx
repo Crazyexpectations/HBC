@@ -16,8 +16,8 @@ export const CAT_PALETTES: Record<string, CatPalette> = {
   tuxedo: { fur: '#2c2a30', furLight: '#413e47', furDark: '#121114', ear: '#5a5560', bow: '#f6c453' },
 };
 
-export type CatMode = 'idle' | 'walking' | 'sleeping';
-type Expression = 'normal' | 'happy' | 'sleepy' | 'excited';
+export type CatMode = 'idle' | 'walking' | 'sleeping' | 'laying' | 'dancing';
+type Expression = 'normal' | 'happy' | 'sleepy' | 'excited' | 'relaxed';
 
 interface Props {
   palette?: keyof typeof CAT_PALETTES;
@@ -27,15 +27,18 @@ interface Props {
   interactive?: boolean;
   muted?: boolean;
   className?: string;
+  /** Bump this number to force a pounce animation programmatically (e.g. a hunting cat pouncing at a mouse), independent of clicks. */
+  pounceSignal?: number;
   onPounce?: () => void;
   onPetStart?: () => void;
 }
 
 // A hand-drawn but shaded/animated cat: walks with an actual leg cycle,
 // purrs and blushes when you hover over it (petting), naps with drooped ears
-// and "z"s when its mode is 'sleeping', and squeaks a tiny synthesized meow
-// when you click it. Reused for both the cursor-following companion and the
-// roaming section cats, so improving it here improves every cat on the site.
+// and "z"s when asleep, sprawls out when laying, wiggles to a beat when
+// dancing, and squeaks a tiny synthesized meow when you click it. Reused for
+// both the cursor-following companion and the roaming section cats, so
+// improving it here improves every cat on the site.
 export default function Cat({
   palette = 'ginger',
   size = 64,
@@ -44,6 +47,7 @@ export default function Cat({
   interactive = true,
   muted = false,
   className = '',
+  pounceSignal,
   onPounce,
   onPetStart,
 }: Props) {
@@ -56,6 +60,23 @@ export default function Cat({
   const [hearts, setHearts] = useState<number[]>([]);
   const pounceTimeout = useRef<number | null>(null);
   const heartIdRef = useRef(0);
+  const lastPounceSignal = useRef(pounceSignal);
+
+  const doPounce = () => {
+    setPounce(true);
+    if (pounceTimeout.current) window.clearTimeout(pounceTimeout.current);
+    pounceTimeout.current = window.setTimeout(() => setPounce(false), 600);
+  };
+
+  // External trigger: parent bumps pounceSignal to make this cat pounce
+  // (used for the "hunting a mouse" behavior) without a real click.
+  useEffect(() => {
+    if (pounceSignal === undefined || pounceSignal === lastPounceSignal.current) return;
+    lastPounceSignal.current = pounceSignal;
+    doPounce();
+    if (!muted) playMeow(palette === 'cream' ? 'high' : 'normal');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pounceSignal]);
 
   // Occasional idle flourish: stretches every so often when just sitting.
   useEffect(() => {
@@ -93,11 +114,9 @@ export default function Cat({
 
   const handleClick = () => {
     if (!interactive) return;
-    setPounce(true);
+    doPounce();
     onPounce?.();
     if (!muted) playMeow(palette === 'cream' ? 'high' : 'normal');
-    if (pounceTimeout.current) window.clearTimeout(pounceTimeout.current);
-    pounceTimeout.current = window.setTimeout(() => setPounce(false), 600);
   };
 
   const handlePetStart = () => {
@@ -108,16 +127,21 @@ export default function Cat({
   };
   const handlePetEnd = () => setPetted(false);
 
+  const sleeping = mode === 'sleeping';
+  const laying = mode === 'laying';
+  const dancing = mode === 'dancing';
+  const walking = mode === 'walking';
+  const lounging = sleeping || laying;
+
   const expression: Expression = pounce
     ? 'excited'
-    : mode === 'sleeping'
+    : sleeping
       ? 'sleepy'
-      : petted
-        ? 'happy'
-        : 'normal';
-
-  const walking = mode === 'walking';
-  const sleeping = mode === 'sleeping';
+      : laying
+        ? 'relaxed'
+        : petted || dancing
+          ? 'happy'
+          : 'normal';
 
   return (
     <div
@@ -147,6 +171,15 @@ export default function Cat({
           z z Z
         </span>
       )}
+      {dancing && (
+        <span
+          className="cat-note pointer-events-none absolute -top-5 left-1/2 z-10 -translate-x-1/2 text-sm"
+          style={{ transform: flip ? 'scaleX(-1)' : undefined }}
+          aria-hidden
+        >
+          🎵
+        </span>
+      )}
       {hearts.map((id) => (
         <span
           key={id}
@@ -163,7 +196,7 @@ export default function Cat({
         width="100%"
         height="100%"
         className={[
-          walking ? 'cat-walk-bob' : sleeping ? 'cat-sleep-breathe' : 'cat-idle-bob',
+          dancing ? 'cat-dance' : walking ? 'cat-walk-bob' : sleeping ? 'cat-sleep-breathe' : 'cat-idle-bob',
           pounce ? 'cat-pounce' : '',
           stretching ? 'cat-stretch' : '',
         ].join(' ')}
@@ -181,33 +214,34 @@ export default function Cat({
         </defs>
 
         {/* ground shadow */}
-        <ellipse cx="46" cy="93" rx={sleeping ? 30 : 24} ry={sleeping ? 6 : 4.5} fill="#000" opacity="0.28" />
+        <ellipse cx="46" cy="93" rx={lounging ? 32 : 24} ry={lounging ? 6 : 4.5} fill="#000" opacity="0.28" />
 
         {/* tail */}
         <path
-          d={sleeping ? 'M 70 74 C 84 72 88 62 82 54' : 'M 70 68 C 92 68 96 46 84 34'}
+          d={lounging ? 'M 70 74 C 84 72 88 62 82 54' : 'M 70 68 C 92 68 96 46 84 34'}
           fill="none"
           stroke={`url(#tail-${uid})`}
           strokeWidth="9"
           strokeLinecap="round"
-          className={sleeping ? '' : walking ? 'cat-tail-fast' : 'cat-tail'}
+          className={sleeping ? '' : walking ? 'cat-tail-fast' : laying ? 'cat-tail-slow' : 'cat-tail'}
           style={{ transformOrigin: '70px 68px', animationPlayState: sleeping ? 'paused' : 'running' }}
         />
 
         {/* back leg peek (depth) */}
-        {!sleeping && <ellipse cx="60" cy="86" rx="6.5" ry="5.5" fill={p.furDark} opacity="0.7" />}
+        {!lounging && <ellipse cx="60" cy="86" rx="6.5" ry="5.5" fill={p.furDark} opacity="0.7" />}
+        {laying && <ellipse cx="72" cy="82" rx="8" ry="6" fill={p.fur} opacity="0.9" />}
 
         {/* body */}
         <ellipse
           cx="46"
-          cy={sleeping ? 78 : 70}
-          rx={sleeping ? 30 : 26}
-          ry={sleeping ? 13 : 20}
+          cy={lounging ? 78 : 70}
+          rx={lounging ? 30 : 26}
+          ry={lounging ? 13 : 20}
           fill={`url(#fur-${uid})`}
         />
 
-        {/* front paws — animated stepping when walking */}
-        {!sleeping && (
+        {/* front paws — animated stepping/bouncing/stretched depending on mode */}
+        {!lounging && (
           <>
             <ellipse
               cx="34"
@@ -215,7 +249,7 @@ export default function Cat({
               rx="7"
               ry="6"
               fill={p.fur}
-              className={walking ? 'cat-paw-a' : stretching ? 'cat-paw-stretch' : ''}
+              className={walking ? 'cat-paw-a' : dancing ? 'cat-paw-dance' : stretching ? 'cat-paw-stretch' : ''}
               style={{ transformOrigin: '34px 84px' }}
             />
             <ellipse
@@ -224,63 +258,79 @@ export default function Cat({
               rx="7"
               ry="6"
               fill={p.fur}
-              className={walking ? 'cat-paw-b' : ''}
+              className={walking ? 'cat-paw-b' : dancing ? 'cat-paw-dance-b' : ''}
               style={{ transformOrigin: '54px 84px' }}
             />
           </>
         )}
+        {laying && (
+          <>
+            <ellipse cx="20" cy="80" rx="8" ry="5.5" fill={p.fur} />
+            <ellipse cx="38" cy="84" rx="8" ry="5.5" fill={p.fur} />
+          </>
+        )}
 
         {/* head */}
-        <circle cx="42" cy={sleeping ? 58 : 42} r="22" fill={`url(#fur-${uid})`} />
+        <circle cx="42" cy={lounging ? 58 : 42} r="22" fill={`url(#fur-${uid})`} />
 
-        {/* ears — droop a little while asleep */}
+        {/* ears — droop while asleep, perky otherwise */}
         <g style={{ transform: sleeping ? 'rotate(14deg)' : undefined, transformOrigin: '24px 30px' }} className={!sleeping ? 'cat-ear-twitch' : ''}>
-          <path d={sleeping ? 'M 22 46 L 18 28 L 34 40 Z' : 'M 24 30 L 20 10 L 38 24 Z'} fill={p.fur} />
-          <path d={sleeping ? 'M 25 42 L 23 32 L 31 39 Z' : 'M 27 26 L 25 14 L 35 23 Z'} fill={p.ear} />
+          <path d={lounging ? 'M 22 46 L 18 28 L 34 40 Z' : 'M 24 30 L 20 10 L 38 24 Z'} fill={p.fur} />
+          <path d={lounging ? 'M 25 42 L 23 32 L 31 39 Z' : 'M 27 26 L 25 14 L 35 23 Z'} fill={p.ear} />
         </g>
         <g style={{ transform: sleeping ? 'rotate(-10deg)' : undefined, transformOrigin: '56px 26px' }}>
-          <path d={sleeping ? 'M 54 44 L 62 26 L 60 46 Z' : 'M 56 26 L 66 8 L 62 30 Z'} fill={p.fur} />
-          <path d={sleeping ? 'M 55 41 L 60 30 L 58 43 Z' : 'M 58 24 L 64 14 L 60 27 Z'} fill={p.ear} />
+          <path d={lounging ? 'M 54 44 L 62 26 L 60 46 Z' : 'M 56 26 L 66 8 L 62 30 Z'} fill={p.fur} />
+          <path d={lounging ? 'M 55 41 L 60 30 L 58 43 Z' : 'M 58 24 L 64 14 L 60 27 Z'} fill={p.ear} />
         </g>
 
         {/* bow */}
-        <g transform={`translate(${sleeping ? 60 : 58} ${sleeping ? 38 : 20})`}>
+        <g transform={`translate(${lounging ? 60 : 58} ${lounging ? 38 : 20})`}>
           <path d="M0 0 L-8 -5 L-8 5 Z" fill={p.bow} />
           <path d="M0 0 L8 -5 L8 5 Z" fill={p.bow} />
           <circle cx="0" cy="0" r="3" fill={p.bow} />
         </g>
 
         {/* blush */}
-        {(expression === 'happy' || expression === 'excited') && (
+        {(expression === 'happy' || expression === 'excited' || expression === 'relaxed') && (
           <>
-            <ellipse cx="27" cy={sleeping ? 62 : 48} rx="4" ry="2.6" fill={p.bow} opacity="0.5" />
-            <ellipse cx="57" cy={sleeping ? 62 : 48} rx="4" ry="2.6" fill={p.bow} opacity="0.5" />
+            <ellipse cx="27" cy={lounging ? 62 : 48} rx="4" ry="2.6" fill={p.bow} opacity="0.5" />
+            <ellipse cx="57" cy={lounging ? 62 : 48} rx="4" ry="2.6" fill={p.bow} opacity="0.5" />
           </>
         )}
 
         {/* face */}
-        <CatFace expression={expression} sleeping={sleeping} furDark={p.furDark} />
+        <CatFace expression={expression} lounging={lounging} furDark={p.furDark} />
 
         {/* whiskers */}
-        <g stroke={p.furDark} strokeWidth="1" opacity={sleeping ? 0.35 : 0.55} strokeLinecap="round">
-          <line x1="18" y1={sleeping ? 60 : 44} x2="30" y2={sleeping ? 59 : 43} />
-          <line x1="18" y1={sleeping ? 66 : 50} x2="30" y2={sleeping ? 64 : 48} />
-          <line x1="54" y1={sleeping ? 59 : 43} x2="66" y2={sleeping ? 60 : 44} />
-          <line x1="54" y1={sleeping ? 64 : 48} x2="66" y2={sleeping ? 66 : 50} />
+        <g stroke={p.furDark} strokeWidth="1" opacity={lounging ? 0.35 : 0.55} strokeLinecap="round">
+          <line x1="18" y1={lounging ? 60 : 44} x2="30" y2={lounging ? 59 : 43} />
+          <line x1="18" y1={lounging ? 66 : 50} x2="30" y2={lounging ? 64 : 48} />
+          <line x1="54" y1={lounging ? 59 : 43} x2="66" y2={lounging ? 60 : 44} />
+          <line x1="54" y1={lounging ? 64 : 48} x2="66" y2={lounging ? 66 : 50} />
         </g>
       </svg>
     </div>
   );
 }
 
-function CatFace({ expression, sleeping, furDark }: { expression: Expression; sleeping: boolean; furDark: string }) {
-  const hy = sleeping ? 58 : 42; // vertical anchor follows head position
+function CatFace({ expression, lounging, furDark }: { expression: Expression; lounging: boolean; furDark: string }) {
+  const hy = lounging ? 58 : 42; // vertical anchor follows head position
 
   if (expression === 'sleepy') {
     return (
       <g stroke={furDark} strokeWidth="2" strokeLinecap="round">
         <line x1="30" y1={hy} x2="38" y2={hy} />
         <line x1="46" y1={hy} x2="54" y2={hy} />
+        <path d={`M40 ${hy + 8} Q42 ${hy + 10} 44 ${hy + 8}`} fill="none" strokeWidth="1.5" />
+      </g>
+    );
+  }
+
+  if (expression === 'relaxed') {
+    return (
+      <g stroke={furDark} strokeLinecap="round">
+        <path d={`M30 ${hy} Q34 ${hy + 2.5} 38 ${hy}`} fill="none" strokeWidth="2" />
+        <path d={`M46 ${hy} Q50 ${hy + 2.5} 54 ${hy}`} fill="none" strokeWidth="2" />
         <path d={`M40 ${hy + 8} Q42 ${hy + 10} 44 ${hy + 8}`} fill="none" strokeWidth="1.5" />
       </g>
     );

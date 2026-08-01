@@ -52,7 +52,7 @@ export default function HeroSection() {
 
       <FloatingEmojis items={['🎈', '🎈', '🎈']} count={isMobile ? 6 : 12} minSize={30} maxSize={54} minDuration={12} maxDuration={22} />
 
-      <RoamingCat palette="ginger" bottom={18} duration={20} delay={3} size={44} />
+      <RoamingCat palette="ginger" size={44} startDelay={3} />
 
       <div className="relative z-10 flex flex-col items-center text-center">
         <motion.p

@@ -213,13 +213,13 @@
     "src": "images/memory-36.jpg",
     "thumb": "images/memory-36-thumb.jpg",
     "width": 1280,
-    "height": 958
+    "height": 720
   },
   {
     "src": "images/memory-37.jpg",
     "thumb": "images/memory-37-thumb.jpg",
-    "width": 1280,
-    "height": 720
+    "width": 720,
+    "height": 1280
   },
   {
     "src": "images/memory-38.jpg",
@@ -230,8 +230,8 @@
   {
     "src": "images/memory-39.jpg",
     "thumb": "images/memory-39-thumb.jpg",
-    "width": 720,
-    "height": 1280
+    "width": 1920,
+    "height": 1080
   },
   {
     "src": "images/memory-40.jpg",
@@ -266,20 +266,20 @@
   {
     "src": "images/memory-45.jpg",
     "thumb": "images/memory-45-thumb.jpg",
-    "width": 1920,
-    "height": 1080
-  },
-  {
-    "src": "images/memory-46.jpg",
-    "thumb": "images/memory-46-thumb.jpg",
     "width": 720,
     "height": 1280
   },
   {
-    "src": "images/memory-47.jpg",
-    "thumb": "images/memory-47-thumb.jpg",
+    "src": "images/memory-46.jpg",
+    "thumb": "images/memory-46-thumb.jpg",
     "width": 1280,
     "height": 720
+  },
+  {
+    "src": "images/memory-47.jpg",
+    "thumb": "images/memory-47-thumb.jpg",
+    "width": 1920,
+    "height": 1080
   },
   {
     "src": "images/memory-48.jpg",
@@ -297,7 +297,7 @@
     "src": "images/memory-50.jpg",
     "thumb": "images/memory-50-thumb.jpg",
     "width": 1920,
-    "height": 1080
+    "height": 1440
   },
   {
     "src": "images/memory-51.jpg",
@@ -308,8 +308,8 @@
   {
     "src": "images/memory-52.jpg",
     "thumb": "images/memory-52-thumb.jpg",
-    "width": 1920,
-    "height": 1440
+    "width": 644,
+    "height": 1345
   },
   {
     "src": "images/memory-53.jpg",
@@ -326,12 +326,6 @@
   {
     "src": "images/memory-55.jpg",
     "thumb": "images/memory-55-thumb.jpg",
-    "width": 644,
-    "height": 1345
-  },
-  {
-    "src": "images/memory-56.jpg",
-    "thumb": "images/memory-56-thumb.jpg",
     "width": 960,
     "height": 2005
   }

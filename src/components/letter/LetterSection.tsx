@@ -2,11 +2,13 @@ import { motion } from 'framer-motion';
 import Section from '../layout/Section';
 import RosePetals from './RosePetals';
 import Envelope from './Envelope';
+import RoamingCat from '../cats/RoamingCat';
 
 export default function LetterSection() {
   return (
     <Section id="letter" bgClassName="bg-gradient-to-b from-midnight via-[#3b0f2e] to-midnight-deep">
       <RosePetals />
+      <RoamingCat palette="cream" size={38} startDelay={3} />
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}

@@ -3,6 +3,7 @@ import HeroSection from './components/hero/HeroSection';
 import MemoriesSection from './components/memories/MemoriesSection';
 import LetterSection from './components/letter/LetterSection';
 import ReasonsSection from './components/reasons/ReasonsSection';
+import GamesSection from './components/games/GamesSection';
 import CakeSection from './components/cake/CakeSection';
 import SurpriseSection from './components/surprise/SurpriseSection';
 import EndingSection from './components/ending/EndingSection';
@@ -17,6 +18,7 @@ export default function MainSite() {
       <MemoriesSection />
       <LetterSection />
       <ReasonsSection />
+      <GamesSection />
       <CakeSection />
       <SurpriseSection />
       <EndingSection />

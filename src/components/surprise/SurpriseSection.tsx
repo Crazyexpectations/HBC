@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Section from '../layout/Section';
 import SceneCanvas from '../three/SceneCanvas';
 import RingReveal3D from './RingReveal3D';
+import RoamingCat from '../cats/RoamingCat';
 import { useAppStore } from '../../store/useAppStore';
 import { SURPRISE } from '../../content';
 
@@ -11,6 +12,7 @@ export default function SurpriseSection() {
 
   return (
     <Section id="surprise" bgClassName="bg-gradient-to-b from-midnight via-[#2a0e2e] to-midnight-deep">
+      <RoamingCat palette="tuxedo" size={40} startDelay={5} />
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

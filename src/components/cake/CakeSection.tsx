@@ -107,7 +107,7 @@ export default function CakeSection() {
         </AnimatePresence>
       </div>
 
-      <RoamingCat palette="cream" bottom={14} duration={24} delay={4} size={40} />
+      <RoamingCat palette="cream" size={40} startDelay={4} />
     </Section>
   );
 }
