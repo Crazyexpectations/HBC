@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Playfair Display", "Georgia", serif;
+  --font-script: "Dancing Script", cursive;
+  --font-body: "Poppins", "Segoe UI", sans-serif;
+
+  --color-midnight: #0d0618;
+  --color-midnight-deep: #05030c;
+  --color-midnight-soft: #1a0b2e;
+  --color-rose: #ff5c8a;
+  --color-rose-light: #ffb6c9;
+  --color-rose-deep: #c9184a;
+  --color-blush: #ffe3ec;
+  --color-gold: #f6c453;
+  --color-gold-soft: #ffe3a3;
+  --color-cream: #fff6f0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+  background: var(--color-midnight);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-midnight);
+  color: var(--color-cream);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#root {
+  position: relative;
+  width: 100%;
+}
+
+::selection {
+  background: var(--color-rose);
+  color: var(--color-midnight-deep);
+}
+
+/* Custom scrollbar — romantic, subtle */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-midnight-deep);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--color-rose), var(--color-rose-deep));
+  border-radius: 999px;
+}
+
+/* Hide native cursor on desktop where the custom cursor is active */
+@media (hover: hover) and (pointer: fine) {
+  .custom-cursor-active,
+  .custom-cursor-active * {
+    cursor: none !important;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+.font-script {
+  font-family: var(--font-script);
+}
+
+.text-glow {
+  text-shadow:
+    0 0 20px rgba(255, 92, 138, 0.55),
+    0 0 60px rgba(255, 92, 138, 0.25);
+}
+
+.gold-glow {
+  text-shadow:
+    0 0 18px rgba(246, 196, 83, 0.6),
+    0 0 40px rgba(246, 196, 83, 0.25);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+/* Utility to visually hide content while keeping it accessible */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes float-y {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-18px); }
+}
+.animate-float {
+  animation: float-y 6s ease-in-out infinite;
+}
+
+@keyframes pulse-heart {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.12); }
+}
+.animate-pulse-heart {
+  animation: pulse-heart 1.4s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 1; }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
