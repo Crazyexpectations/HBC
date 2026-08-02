@@ -49,7 +49,7 @@ export default function MemoryMatchGame() {
   useEffect(() => {
     if (deck.length > 0 && matchedCount === deck.length && !won) {
       setWon(true);
-      confetti({ particleCount: 130, spread: 85, origin: { y: 0.6 }, colors: ['#ff5c8a', '#f6c453', '#ffb6c9'] });
+      confetti({ particleCount: 130, spread: 85, origin: { y: 0.6 }, colors: ['#a3243f', '#c9a15a', '#e0a8a0'] });
     }
   }, [matchedCount, deck.length, won]);
 

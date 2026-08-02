@@ -38,14 +38,14 @@ export default function HeroSection() {
         <SceneCanvas camera={{ position: [0, 0.3, 5.2], fov: 45 }}>
           <Suspense fallback={null}>
             <ambientLight intensity={0.5} />
-            <pointLight position={[3, 3, 4]} intensity={1.4} color="#ffb6c9" />
-            <pointLight position={[-4, -2, -2]} intensity={0.6} color="#8a4fff" />
-            <directionalLight position={[0, 5, 5]} intensity={0.5} color="#fff6f0" />
+            <pointLight position={[3, 3, 4]} intensity={1.4} color="#c97a8a" />
+            <pointLight position={[-4, -2, -2]} intensity={0.6} color="#b8622f" />
+            <directionalLight position={[0, 5, 5]} intensity={0.5} color="#f6ecdf" />
 
             <GiftBoxDecorative position={isMobile ? [0, -2.3, -1.4] : [0, -1.35, -0.8]} scale={isMobile ? 0.4 : 0.6} />
 
-            <Sparkles count={isMobile ? 25 : 50} scale={9} size={2} speed={0.25} color="#ffffff" opacity={0.6} />
-            <Sparkles count={isMobile ? 8 : 18} scale={6} size={4} speed={0.6} color="#ffd27a" opacity={0.8} />
+            <Sparkles count={isMobile ? 25 : 50} scale={9} size={2} speed={0.25} color="#f6ecdf" opacity={0.6} />
+            <Sparkles count={isMobile ? 8 : 18} scale={6} size={4} speed={0.6} color="#e3c993" opacity={0.8} />
           </Suspense>
         </SceneCanvas>
       </div>

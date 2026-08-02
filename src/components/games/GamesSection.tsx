@@ -7,7 +7,7 @@ import CatchGame from './CatchGame';
 // falling hearts and get in the way of actually playing the game.
 export default function GamesSection() {
   return (
-    <Section id="games" bgClassName="bg-gradient-to-b from-midnight via-[#241033] to-midnight-deep" className="gap-10">
+    <Section id="games" bgClassName="bg-gradient-to-b from-midnight via-[#241019] to-midnight-deep" className="gap-10">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}

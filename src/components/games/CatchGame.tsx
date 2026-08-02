@@ -54,7 +54,7 @@ export default function CatchGame() {
     if (timeLeft <= 0) {
       setPlaying(false);
       setItems([]);
-      if (score > 0) confetti({ particleCount: 110, spread: 85, origin: { y: 0.6 }, colors: ['#ff5c8a', '#f6c453', '#ffb6c9'] });
+      if (score > 0) confetti({ particleCount: 110, spread: 85, origin: { y: 0.6 }, colors: ['#a3243f', '#c9a15a', '#e0a8a0'] });
       return;
     }
     const t = window.setTimeout(() => setTimeLeft((s) => s - 1), 1000);

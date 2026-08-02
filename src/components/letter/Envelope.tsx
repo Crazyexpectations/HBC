@@ -32,7 +32,7 @@ export default function Envelope() {
               style={{ transformStyle: 'preserve-3d' }}
             >
               {/* envelope body */}
-              <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-[#8a1338] to-[#4a0a20] shadow-2xl shadow-black/60" />
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-[#7a1830] to-[#3d0f1a] shadow-2xl shadow-black/60" />
 
               {/* letter peeking out */}
               <motion.div
@@ -48,7 +48,7 @@ export default function Envelope() {
                 className="absolute inset-x-0 bottom-0 rounded-b-lg"
                 style={{
                   height: '55%',
-                  background: 'linear-gradient(315deg,#c9184a,#7a0f30)',
+                  background: 'linear-gradient(315deg,#6e1728,#3d0f1a)',
                   clipPath: 'polygon(0 100%, 100% 100%, 50% 20%)',
                   zIndex: 3,
                 }}
@@ -59,7 +59,7 @@ export default function Envelope() {
                 className="absolute left-0 top-0 w-full"
                 style={{
                   height: '58%',
-                  background: 'linear-gradient(135deg,#ff5c8a,#c9184a)',
+                  background: 'linear-gradient(135deg,#a3243f,#6e1728)',
                   clipPath: 'polygon(0 0, 100% 0, 50% 100%)',
                   transformOrigin: 'top center',
                   transformStyle: 'preserve-3d',

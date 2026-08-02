@@ -17,7 +17,7 @@ function burst(x: number, y: number) {
     startVelocity: 28,
     scalar: 0.9,
     shapes: [heart],
-    colors: ['#ff5c8a', '#c9184a', '#ffb6c9'],
+    colors: ['#a3243f', '#6e1728', '#e0a8a0'],
     origin: { x, y },
     gravity: 0.9,
     ticks: 130,

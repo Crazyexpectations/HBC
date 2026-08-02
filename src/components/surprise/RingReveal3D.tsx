@@ -64,22 +64,22 @@ export default function RingReveal3D() {
           {/* box body */}
           <mesh position={[0, 0.2, 0]} castShadow receiveShadow>
             <boxGeometry args={[1.3, 0.85, 1.3]} />
-            <meshStandardMaterial color="#c9184a" roughness={0.35} metalness={0.2} />
+            <meshStandardMaterial color="#8a1f35" roughness={0.35} metalness={0.2} />
           </mesh>
           <mesh position={[0, 0.2, 0]}>
             <boxGeometry args={[0.2, 0.87, 1.32]} />
-            <meshStandardMaterial color="#f6c453" roughness={0.25} metalness={0.35} />
+            <meshStandardMaterial color="#c9a15a" roughness={0.25} metalness={0.35} />
           </mesh>
           <mesh position={[0, 0.2, 0]}>
             <boxGeometry args={[1.32, 0.87, 0.2]} />
-            <meshStandardMaterial color="#f6c453" roughness={0.25} metalness={0.35} />
+            <meshStandardMaterial color="#c9a15a" roughness={0.25} metalness={0.35} />
           </mesh>
 
           {/* lid */}
           <group ref={lidRef} position={[0, 0.62, 0]}>
             <mesh castShadow>
               <boxGeometry args={[1.4, 0.22, 1.4]} />
-              <meshStandardMaterial color="#f6c453" roughness={0.3} metalness={0.3} />
+              <meshStandardMaterial color="#c9a15a" roughness={0.3} metalness={0.3} />
             </mesh>
           </group>
         </group>
@@ -89,15 +89,16 @@ export default function RingReveal3D() {
       <group ref={ringGroupRef} position={[0, 0.1, 0]} scale={0.001}>
         <mesh rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[0.26, 0.045, 24, 64]} />
-          <meshStandardMaterial color="#f6c453" roughness={0.15} metalness={0.9} />
+          <meshStandardMaterial color="#c9a15a" roughness={0.15} metalness={0.9} />
         </mesh>
+        {/* the gem is a proper cherry-red stone, on theme for her name */}
         <mesh ref={gemRef} position={[0, 0.26, 0]}>
           <octahedronGeometry args={[0.11, 0]} />
-          <meshStandardMaterial color="#ffe3ec" roughness={0.05} metalness={0.1} emissive="#ff5c8a" emissiveIntensity={0.4} />
+          <meshStandardMaterial color="#c9385a" roughness={0.05} metalness={0.1} emissive="#a3243f" emissiveIntensity={0.5} />
         </mesh>
       </group>
 
-      {revealed && <Sparkles count={30} scale={2.4} size={3} speed={0.5} color="#ffe3a3" position={[0, 0.9, 0]} />}
+      {revealed && <Sparkles count={30} scale={2.4} size={3} speed={0.5} color="#e3c993" position={[0, 0.9, 0]} />}
     </group>
   );
 }

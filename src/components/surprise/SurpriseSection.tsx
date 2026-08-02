@@ -11,7 +11,7 @@ export default function SurpriseSection() {
   const revealed = useAppStore((s) => s.ringRevealed);
 
   return (
-    <Section id="surprise" bgClassName="bg-gradient-to-b from-midnight via-[#2a0e2e] to-midnight-deep">
+    <Section id="surprise" bgClassName="bg-gradient-to-b from-midnight via-[#2c1119] to-midnight-deep">
       <RoamingCat palette="tuxedo" size={40} startDelay={5} />
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -39,8 +39,8 @@ export default function SurpriseSection() {
         <SceneCanvas camera={{ position: [0, 0.4, 5.2], fov: 42 }}>
           <Suspense fallback={null}>
             <ambientLight intensity={0.4} />
-            <pointLight position={[3, 3, 3]} intensity={1.1} color="#ffb6c9" />
-            <pointLight position={[-3, 1, -2]} intensity={0.5} color="#8a4fff" />
+            <pointLight position={[3, 3, 3]} intensity={1.1} color="#c97a8a" />
+            <pointLight position={[-3, 1, -2]} intensity={0.5} color="#b8622f" />
             <directionalLight position={[0, 4, 4]} intensity={0.4} />
             <RingReveal3D />
           </Suspense>

@@ -14,8 +14,8 @@ interface Props {
 // dress the hero scene. The interactive "open me" box lives in the Surprise
 // section as its own component with its own lid-opening animation.
 export default function GiftBoxDecorative({
-  color = '#ff5c8a',
-  ribbonColor = '#f6c453',
+  color = '#a3243f',
+  ribbonColor = '#c9a15a',
   position = [0, 0, 0],
   scale = 1,
 }: Props) {

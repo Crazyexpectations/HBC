@@ -6,7 +6,7 @@ import RoamingCat from '../cats/RoamingCat';
 
 export default function LetterSection() {
   return (
-    <Section id="letter" bgClassName="bg-gradient-to-b from-midnight via-[#3b0f2e] to-midnight-deep">
+    <Section id="letter" bgClassName="bg-gradient-to-b from-midnight via-[#331420] to-midnight-deep">
       <RosePetals />
       <RoamingCat palette="cream" size={38} startDelay={3} />
 

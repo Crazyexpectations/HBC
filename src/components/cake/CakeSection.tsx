@@ -34,7 +34,7 @@ export default function CakeSection() {
   });
 
   return (
-    <Section id="cake" bgClassName="bg-gradient-to-b from-midnight-deep via-[#241033] to-midnight">
+    <Section id="cake" bgClassName="bg-gradient-to-b from-midnight-deep via-[#241019] to-midnight">
       <motion.div
         onViewportEnter={() => setSectionInView(true)}
         onViewportLeave={() => setSectionInView(false)}
@@ -57,10 +57,10 @@ export default function CakeSection() {
         <SceneCanvas camera={{ position: [0, 1.6, 4.2], fov: 42 }}>
           <Suspense fallback={null}>
             <ambientLight intensity={0.6} />
-            <pointLight position={[3, 4, 3]} intensity={0.9} color="#ffe3a3" />
-            <pointLight position={[-3, 2, 3]} intensity={0.5} color="#ffb6c9" />
+            <pointLight position={[3, 4, 3]} intensity={0.9} color="#e3c993" />
+            <pointLight position={[-3, 2, 3]} intensity={0.5} color="#c97a8a" />
             <directionalLight position={[-2, 3, 2]} intensity={0.5} />
-            <Sparkles count={isMobile ? 12 : 25} scale={4} size={2.5} speed={0.3} color="#ffd27a" opacity={0.5} />
+            <Sparkles count={isMobile ? 12 : 25} scale={4} size={2.5} speed={0.3} color="#e3c993" opacity={0.5} />
             <Cake3D />
           </Suspense>
         </SceneCanvas>

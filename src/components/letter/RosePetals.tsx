@@ -14,7 +14,7 @@ export default function RosePetals({ count = 22 }: { count?: number }) {
         delay: Math.random() * 10,
         drift: (Math.random() - 0.5) * 200,
         spin: 180 + Math.random() * 360,
-        hue: Math.random() > 0.5 ? '#ff5c8a' : '#c9184a',
+        hue: Math.random() > 0.5 ? '#a3243f' : '#6e1728',
       })),
     [count]
   );

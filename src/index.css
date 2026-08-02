@@ -1,20 +1,24 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Playfair Display", "Georgia", serif;
-  --font-script: "Dancing Script", cursive;
-  --font-body: "Poppins", "Segoe UI", sans-serif;
+  --font-display: "Fraunces", "Georgia", serif;
+  --font-script: "Mrs Saint Delafield", cursive;
+  --font-body: "Inter", "Segoe UI", sans-serif;
 
-  --color-midnight: #0d0618;
-  --color-midnight-deep: #05030c;
-  --color-midnight-soft: #1a0b2e;
-  --color-rose: #ff5c8a;
-  --color-rose-light: #ffb6c9;
-  --color-rose-deep: #c9184a;
-  --color-blush: #ffe3ec;
-  --color-gold: #f6c453;
-  --color-gold-soft: #ffe3a3;
-  --color-cream: #fff6f0;
+  /* "Cherry" palette — deep wine/cherry instead of the generic pink+purple
+     birthday-template look. Named the same as before on purpose: every
+     bg-midnight / text-rose / etc. utility across the codebase repaints
+     automatically from this one block. */
+  --color-midnight: #170a10;
+  --color-midnight-deep: #0c0508;
+  --color-midnight-soft: #2c1119;
+  --color-rose: #a3243f;
+  --color-rose-light: #e0a8a0;
+  --color-rose-deep: #6e1728;
+  --color-blush: #f0d9d0;
+  --color-gold: #c9a15a;
+  --color-gold-soft: #e3c993;
+  --color-cream: #f6ecdf;
 }
 
 * {
@@ -340,10 +344,13 @@ body {
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(160deg, rgba(246, 236, 223, 0.09), rgba(246, 236, 223, 0.03));
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(227, 201, 147, 0.16);
+  box-shadow:
+    0 1px 0 0 rgba(246, 236, 223, 0.08) inset,
+    0 18px 40px -20px rgba(0, 0, 0, 0.6);
 }
 
 /* Utility to visually hide content while keeping it accessible */
