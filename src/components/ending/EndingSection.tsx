@@ -21,7 +21,7 @@ export default function EndingSection() {
   };
 
   return (
-    <Section id="ending" bgClassName="bg-gradient-to-b from-midnight-deep via-[#1f0d13] to-black">
+    <Section id="ending" bgClassName="bg-gradient-to-b from-midnight-deep via-[#2a1119] to-black">
       <StarsCss count={100} />
 
       {/* moon */}

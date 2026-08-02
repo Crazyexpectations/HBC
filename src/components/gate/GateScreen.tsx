@@ -91,9 +91,9 @@ export default function GateScreen() {
       className="fixed inset-0 z-[250] flex flex-col items-center justify-center overflow-hidden bg-midnight-deep px-6 text-center"
     >
       {/* ambient romantic backdrop */}
-      <div className="pointer-events-none absolute inset-0 animate-gradient bg-[linear-gradient(120deg,#170a10,#331420,#0c0508,#2c1119)]" />
+      <div className="pointer-events-none absolute inset-0 animate-gradient bg-[linear-gradient(120deg,#23121a,#3a1b26,#170b12,#442032)]" />
       <StarsCss />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(163,36,63,0.22),transparent_55%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(201,64,94,0.2),transparent_55%)]" />
 
       <motion.div
         initial={{ y: -14, opacity: 0 }}

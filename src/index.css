@@ -2,23 +2,24 @@
 
 @theme {
   --font-display: "Fraunces", "Georgia", serif;
-  --font-script: "Mrs Saint Delafield", cursive;
+  --font-script: "Caveat", cursive;
   --font-body: "Inter", "Segoe UI", sans-serif;
 
-  /* "Cherry" palette — deep wine/cherry instead of the generic pink+purple
-     birthday-template look. Named the same as before on purpose: every
-     bg-midnight / text-rose / etc. utility across the codebase repaints
-     automatically from this one block. */
-  --color-midnight: #170a10;
-  --color-midnight-deep: #0c0508;
-  --color-midnight-soft: #2c1119;
-  --color-rose: #a3243f;
-  --color-rose-light: #e0a8a0;
-  --color-rose-deep: #6e1728;
-  --color-blush: #f0d9d0;
-  --color-gold: #c9a15a;
-  --color-gold-soft: #e3c993;
-  --color-cream: #f6ecdf;
+  /* Warm "cherry" palette — a candlelit berry-red instead of both the
+     original generic pink+purple template AND the overly formal near-black
+     wine tone from the first pass. Named the same as before on purpose:
+     every bg-midnight / text-rose / etc. utility across the codebase
+     repaints automatically from this one block. */
+  --color-midnight: #23121a;
+  --color-midnight-deep: #170b12;
+  --color-midnight-soft: #3a1b26;
+  --color-rose: #c9405e;
+  --color-rose-light: #eab9ae;
+  --color-rose-deep: #8c2c42;
+  --color-blush: #f3ddd2;
+  --color-gold: #d9ac68;
+  --color-gold-soft: #ecd19d;
+  --color-cream: #fbf1e4;
 }
 
 * {
@@ -332,25 +333,18 @@ body {
 }
 
 .text-glow {
-  text-shadow:
-    0 0 20px rgba(255, 92, 138, 0.55),
-    0 0 60px rgba(255, 92, 138, 0.25);
+  text-shadow: 0 0 24px rgba(201, 64, 94, 0.3);
 }
 
 .gold-glow {
-  text-shadow:
-    0 0 18px rgba(246, 196, 83, 0.6),
-    0 0 40px rgba(246, 196, 83, 0.25);
+  text-shadow: 0 0 20px rgba(217, 172, 104, 0.35);
 }
 
 .glass {
-  background: linear-gradient(160deg, rgba(246, 236, 223, 0.09), rgba(246, 236, 223, 0.03));
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(227, 201, 147, 0.16);
-  box-shadow:
-    0 1px 0 0 rgba(246, 236, 223, 0.08) inset,
-    0 18px 40px -20px rgba(0, 0, 0, 0.6);
+  background: rgba(251, 241, 228, 0.07);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(251, 241, 228, 0.14);
 }
 
 /* Utility to visually hide content while keeping it accessible */

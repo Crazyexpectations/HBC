@@ -34,7 +34,7 @@ export default function CakeSection() {
   });
 
   return (
-    <Section id="cake" bgClassName="bg-gradient-to-b from-midnight-deep via-[#241019] to-midnight">
+    <Section id="cake" bgClassName="bg-gradient-to-b from-midnight-deep via-[#331722] to-midnight">
       <motion.div
         onViewportEnter={() => setSectionInView(true)}
         onViewportLeave={() => setSectionInView(false)}

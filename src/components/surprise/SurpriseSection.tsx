@@ -11,7 +11,7 @@ export default function SurpriseSection() {
   const revealed = useAppStore((s) => s.ringRevealed);
 
   return (
-    <Section id="surprise" bgClassName="bg-gradient-to-b from-midnight via-[#2c1119] to-midnight-deep">
+    <Section id="surprise" bgClassName="bg-gradient-to-b from-midnight via-midnight-soft to-midnight-deep">
       <RoamingCat palette="tuxedo" size={40} startDelay={5} />
       <motion.div
         initial={{ opacity: 0, y: 30 }}

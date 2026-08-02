@@ -19,7 +19,7 @@ export default function MemoriesSection() {
   }, []);
 
   return (
-    <Section id="memories" bgClassName="bg-gradient-to-b from-midnight via-[#2c1119] to-midnight" className="py-32">
+    <Section id="memories" bgClassName="bg-gradient-to-b from-midnight via-midnight-soft to-midnight" className="py-32">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
