@@ -5,7 +5,7 @@ import Candle from './Candle';
 import { useAppStore } from '../../store/useAppStore';
 import { CAKE } from '../../content';
 
-const CANDLE_COLORS = ['#a3243f', '#c9a15a', '#e0a8a0', '#6e1728', '#e3c993'];
+const CANDLE_COLORS = ['#e0355c', '#f0b854', '#f5a8b8', '#9c1f3f', '#ffdb94'];
 
 export default function Cake3D() {
   const group = useRef<Group>(null);
@@ -29,7 +29,7 @@ export default function Cake3D() {
       {/* plate */}
       <mesh position={[0, -0.02, 0]} receiveShadow>
         <cylinderGeometry args={[1.7, 1.7, 0.05, 48]} />
-        <meshStandardMaterial color="#f6ecdf" roughness={0.3} metalness={0.4} />
+        <meshStandardMaterial color="#fff3e6" roughness={0.3} metalness={0.4} />
       </mesh>
 
       {/* bottom tier */}
@@ -47,11 +47,11 @@ export default function Cake3D() {
       {/* frosting drip ring — rotated flat so it wraps around the tier like a band, not facing the camera */}
       <mesh position={[0, 1.13, 0]} rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[0.95, 0.06, 12, 48]} />
-        <meshStandardMaterial color="#a3243f" roughness={0.4} />
+        <meshStandardMaterial color="#e0355c" roughness={0.4} />
       </mesh>
       <mesh position={[0, 0.6, 0]} rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[1.36, 0.05, 12, 48]} />
-        <meshStandardMaterial color="#6e1728" roughness={0.4} />
+        <meshStandardMaterial color="#9c1f3f" roughness={0.4} />
       </mesh>
 
       {candlePositions.map((pos, i) => (

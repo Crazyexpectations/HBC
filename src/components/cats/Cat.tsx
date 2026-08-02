@@ -12,10 +12,10 @@ export interface CatPalette {
 }
 
 export const CAT_PALETTES: Record<string, CatPalette> = {
-  ginger: { fur: '#e8935a', furLight: '#f3ae7c', furDark: '#a85a2c', ear: '#ffc9a8', bow: '#a3243f', eye: '#d99a2b', belly: '#fbe3cf' },
-  charcoal: { fur: '#4a4652', furLight: '#615c6c', furDark: '#252330', ear: '#8b7d8f', bow: '#c9a15a', eye: '#8fbf6f', belly: '#7d7686' },
-  cream: { fur: '#fff0dc', furLight: '#fffaf0', furDark: '#dcb686', ear: '#ffd9c2', bow: '#a3243f', eye: '#8ecae6', belly: '#fffdf7' },
-  tuxedo: { fur: '#2c2a30', furLight: '#413e47', furDark: '#121114', ear: '#5a5560', bow: '#c9a15a', eye: '#c9a83c', belly: '#e8e4de' },
+  ginger: { fur: '#e8935a', furLight: '#f3ae7c', furDark: '#a85a2c', ear: '#ffc9a8', bow: '#e0355c', eye: '#d99a2b', belly: '#fbe3cf' },
+  charcoal: { fur: '#4a4652', furLight: '#615c6c', furDark: '#252330', ear: '#8b7d8f', bow: '#f0b854', eye: '#8fbf6f', belly: '#7d7686' },
+  cream: { fur: '#fff0dc', furLight: '#fffaf0', furDark: '#dcb686', ear: '#ffd9c2', bow: '#e0355c', eye: '#8ecae6', belly: '#fffdf7' },
+  tuxedo: { fur: '#2c2a30', furLight: '#413e47', furDark: '#121114', ear: '#5a5560', bow: '#f0b854', eye: '#c9a83c', belly: '#e8e4de' },
 };
 
 export type CatMode = 'idle' | 'walking' | 'sleeping' | 'laying' | 'dancing';

@@ -5,21 +5,21 @@
   --font-script: "Caveat", cursive;
   --font-body: "Inter", "Segoe UI", sans-serif;
 
-  /* Warm "cherry" palette — a candlelit berry-red instead of both the
-     original generic pink+purple template AND the overly formal near-black
-     wine tone from the first pass. Named the same as before on purpose:
-     every bg-midnight / text-rose / etc. utility across the codebase
-     repaints automatically from this one block. */
-  --color-midnight: #23121a;
-  --color-midnight-deep: #170b12;
-  --color-midnight-soft: #3a1b26;
-  --color-rose: #c9405e;
-  --color-rose-light: #eab9ae;
-  --color-rose-deep: #8c2c42;
-  --color-blush: #f3ddd2;
-  --color-gold: #d9ac68;
-  --color-gold-soft: #ecd19d;
-  --color-cream: #fbf1e4;
+  /* "Cherry" palette, vivid pass — a saturated, glowing berry-red and
+     bright gold instead of the muted/muddy version from last round (which
+     read as "dead") or the near-black formal wine tone before that. Named
+     the same as before on purpose: every bg-midnight / text-rose / etc.
+     utility across the codebase repaints automatically from this block. */
+  --color-midnight: #2a1420;
+  --color-midnight-deep: #170a11;
+  --color-midnight-soft: #47202f;
+  --color-rose: #e0355c;
+  --color-rose-light: #f5a8b8;
+  --color-rose-deep: #9c1f3f;
+  --color-blush: #f8ddd8;
+  --color-gold: #f0b854;
+  --color-gold-soft: #ffdb94;
+  --color-cream: #fff3e6;
 }
 
 * {
@@ -333,18 +333,23 @@ body {
 }
 
 .text-glow {
-  text-shadow: 0 0 24px rgba(201, 64, 94, 0.3);
+  text-shadow:
+    0 0 18px rgba(224, 53, 92, 0.6),
+    0 0 46px rgba(224, 53, 92, 0.3);
 }
 
 .gold-glow {
-  text-shadow: 0 0 20px rgba(217, 172, 104, 0.35);
+  text-shadow:
+    0 0 16px rgba(240, 184, 84, 0.65),
+    0 0 38px rgba(240, 184, 84, 0.3);
 }
 
 .glass {
-  background: rgba(251, 241, 228, 0.07);
+  background: linear-gradient(155deg, rgba(255, 243, 230, 0.11), rgba(255, 243, 230, 0.04));
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(251, 241, 228, 0.14);
+  border: 1px solid rgba(255, 219, 148, 0.2);
+  box-shadow: 0 14px 34px -20px rgba(224, 53, 92, 0.4);
 }
 
 /* Utility to visually hide content while keeping it accessible */

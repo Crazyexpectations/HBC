@@ -18,10 +18,10 @@ export default function Mouse({ x, y, size = 26 }: Props) {
         <ellipse cx="20" cy="24" rx="12" ry="9" fill="#a9a4b0" />
         <circle cx="10" cy="14" r="5" fill="#a9a4b0" />
         <circle cx="18" cy="12" r="5" fill="#a9a4b0" />
-        <circle cx="10" cy="14" r="2.4" fill="#e0a8a0" />
-        <circle cx="18" cy="12" r="2.4" fill="#e0a8a0" />
+        <circle cx="10" cy="14" r="2.4" fill="#f5a8b8" />
+        <circle cx="18" cy="12" r="2.4" fill="#f5a8b8" />
         <circle cx="12" cy="21" r="1.3" fill="#2a2830" />
-        <circle cx="6" cy="24" r="1.6" fill="#a3243f" />
+        <circle cx="6" cy="24" r="1.6" fill="#e0355c" />
       </svg>
     </div>
   );

@@ -39,8 +39,8 @@ export default function SurpriseSection() {
         <SceneCanvas camera={{ position: [0, 0.4, 5.2], fov: 42 }}>
           <Suspense fallback={null}>
             <ambientLight intensity={0.4} />
-            <pointLight position={[3, 3, 3]} intensity={1.1} color="#c97a8a" />
-            <pointLight position={[-3, 1, -2]} intensity={0.5} color="#b8622f" />
+            <pointLight position={[3, 3, 3]} intensity={1.1} color="#e0708a" />
+            <pointLight position={[-3, 1, -2]} intensity={0.5} color="#d9803f" />
             <directionalLight position={[0, 4, 4]} intensity={0.4} />
             <RingReveal3D />
           </Suspense>
