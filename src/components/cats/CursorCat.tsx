@@ -150,7 +150,12 @@ export default function CursorCat() {
 
   return (
     <>
-      <div className="pointer-events-none fixed inset-0 z-[9996]">
+      {/* Deliberately a LOW z-index (below the z-10 convention every real
+          button/card on this site uses) so the companion cat never steals
+          clicks from actual UI — it's a decorative layer, not chrome. It'll
+          duck behind cards/buttons instead of covering them, which is the
+          correct trade-off. */}
+      <div className="pointer-events-none fixed inset-0 z-[5]">
         {prints.map((pr) => (
           <span
             key={pr.id}
@@ -162,7 +167,7 @@ export default function CursorCat() {
           </span>
         ))}
       </div>
-      <div ref={elRef} className="pointer-events-none fixed left-0 top-0 z-[9997] -translate-x-1/2 -translate-y-1/2">
+      <div ref={elRef} className="pointer-events-none fixed left-0 top-0 z-[6] -translate-x-1/2 -translate-y-1/2">
         <div className="pointer-events-auto">
           <Cat palette="ginger" size={52} mode={mode} flip={flip} pounceSignal={pounceSignal} muted={!musicPlaying} />
         </div>

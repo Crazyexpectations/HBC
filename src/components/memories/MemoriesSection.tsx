@@ -54,7 +54,7 @@ export default function MemoriesSection() {
 
       <Lightbox index={openIndex} onClose={() => setOpenIndex(null)} onNav={nav} />
 
-      <RoamingCat palette="tuxedo" size={44} startDelay={5} hunts />
+      <RoamingCat palette="tuxedo" size={44} startDelay={5} />
     </Section>
   );
 }

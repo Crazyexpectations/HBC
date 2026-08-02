@@ -7,13 +7,15 @@ export interface CatPalette {
   furDark: string;
   ear: string;
   bow: string;
+  eye: string;
+  belly: string;
 }
 
 export const CAT_PALETTES: Record<string, CatPalette> = {
-  ginger: { fur: '#e8935a', furLight: '#f3ae7c', furDark: '#a85a2c', ear: '#ffc9a8', bow: '#ff5c8a' },
-  charcoal: { fur: '#4a4652', furLight: '#615c6c', furDark: '#252330', ear: '#8b7d8f', bow: '#f6c453' },
-  cream: { fur: '#fff0dc', furLight: '#fffaf0', furDark: '#dcb686', ear: '#ffd9c2', bow: '#ff5c8a' },
-  tuxedo: { fur: '#2c2a30', furLight: '#413e47', furDark: '#121114', ear: '#5a5560', bow: '#f6c453' },
+  ginger: { fur: '#e8935a', furLight: '#f3ae7c', furDark: '#a85a2c', ear: '#ffc9a8', bow: '#ff5c8a', eye: '#d99a2b', belly: '#fbe3cf' },
+  charcoal: { fur: '#4a4652', furLight: '#615c6c', furDark: '#252330', ear: '#8b7d8f', bow: '#f6c453', eye: '#8fbf6f', belly: '#7d7686' },
+  cream: { fur: '#fff0dc', furLight: '#fffaf0', furDark: '#dcb686', ear: '#ffd9c2', bow: '#ff5c8a', eye: '#8ecae6', belly: '#fffdf7' },
+  tuxedo: { fur: '#2c2a30', furLight: '#413e47', furDark: '#121114', ear: '#5a5560', bow: '#f6c453', eye: '#c9a83c', belly: '#e8e4de' },
 };
 
 export type CatMode = 'idle' | 'walking' | 'sleeping' | 'laying' | 'dancing';
@@ -239,6 +241,8 @@ export default function Cat({
           ry={lounging ? 13 : 20}
           fill={`url(#fur-${uid})`}
         />
+        {/* lighter belly patch — real cats almost always have one */}
+        <ellipse cx={lounging ? 50 : 46} cy={lounging ? 83 : 82} rx={lounging ? 16 : 13} ry={lounging ? 6 : 9} fill={p.belly} opacity="0.75" />
 
         {/* front paws — animated stepping/bouncing/stretched depending on mode */}
         {!lounging && (
@@ -273,14 +277,26 @@ export default function Cat({
         {/* head */}
         <circle cx="42" cy={lounging ? 58 : 42} r="22" fill={`url(#fur-${uid})`} />
 
-        {/* ears — droop while asleep, perky otherwise */}
+        {/* ears — droop while asleep, perky otherwise; small inner tufts for texture */}
         <g style={{ transform: sleeping ? 'rotate(14deg)' : undefined, transformOrigin: '24px 30px' }} className={!sleeping ? 'cat-ear-twitch' : ''}>
           <path d={lounging ? 'M 22 46 L 18 28 L 34 40 Z' : 'M 24 30 L 20 10 L 38 24 Z'} fill={p.fur} />
           <path d={lounging ? 'M 25 42 L 23 32 L 31 39 Z' : 'M 27 26 L 25 14 L 35 23 Z'} fill={p.ear} />
+          {!lounging && (
+            <g stroke={p.fur} strokeWidth="0.8" opacity="0.8" strokeLinecap="round">
+              <path d="M 29 24 L 27 19" fill="none" />
+              <path d="M 32 25 L 31 20" fill="none" />
+            </g>
+          )}
         </g>
         <g style={{ transform: sleeping ? 'rotate(-10deg)' : undefined, transformOrigin: '56px 26px' }}>
           <path d={lounging ? 'M 54 44 L 62 26 L 60 46 Z' : 'M 56 26 L 66 8 L 62 30 Z'} fill={p.fur} />
           <path d={lounging ? 'M 55 41 L 60 30 L 58 43 Z' : 'M 58 24 L 64 14 L 60 27 Z'} fill={p.ear} />
+          {!lounging && (
+            <g stroke={p.fur} strokeWidth="0.8" opacity="0.8" strokeLinecap="round">
+              <path d="M 61 24 L 63 19" fill="none" />
+              <path d="M 58 25 L 59 20" fill="none" />
+            </g>
+          )}
         </g>
 
         {/* bow */}
@@ -298,8 +314,11 @@ export default function Cat({
           </>
         )}
 
+        {/* light muzzle patch under the nose/mouth, like a real cat's chin fur */}
+        <ellipse cx="42" cy={lounging ? 65 : 50} rx="9" ry="5.5" fill={p.belly} opacity="0.7" />
+
         {/* face */}
-        <CatFace expression={expression} lounging={lounging} furDark={p.furDark} />
+        <CatFace expression={expression} lounging={lounging} furDark={p.furDark} eye={p.eye} />
 
         {/* whiskers */}
         <g stroke={p.furDark} strokeWidth="1" opacity={lounging ? 0.35 : 0.55} strokeLinecap="round">
@@ -313,7 +332,17 @@ export default function Cat({
   );
 }
 
-function CatFace({ expression, lounging, furDark }: { expression: Expression; lounging: boolean; furDark: string }) {
+function CatFace({
+  expression,
+  lounging,
+  furDark,
+  eye,
+}: {
+  expression: Expression;
+  lounging: boolean;
+  furDark: string;
+  eye: string;
+}) {
   const hy = lounging ? 58 : 42; // vertical anchor follows head position
 
   if (expression === 'sleepy') {
@@ -349,22 +378,28 @@ function CatFace({ expression, lounging, furDark }: { expression: Expression; lo
   if (expression === 'excited') {
     return (
       <g>
-        <circle cx="34" cy={hy} r="4.2" fill={furDark} />
-        <circle cx="35.2" cy={hy - 1.2} r="1.1" fill="#fff" />
-        <circle cx="50" cy={hy} r="4.2" fill={furDark} />
-        <circle cx="51.2" cy={hy - 1.2} r="1.1" fill="#fff" />
+        <ellipse cx="34" cy={hy} rx="4.6" ry="5.2" fill={eye} />
+        <ellipse cx="34" cy={hy} rx="1.1" ry="4.4" fill={furDark} />
+        <circle cx="35.4" cy={hy - 1.6} r="1.1" fill="#fff" />
+        <ellipse cx="50" cy={hy} rx="4.6" ry="5.2" fill={eye} />
+        <ellipse cx="50" cy={hy} rx="1.1" ry="4.4" fill={furDark} />
+        <circle cx="51.4" cy={hy - 1.6} r="1.1" fill="#fff" />
         <circle cx="42" cy={hy + 8} r="2.4" fill={furDark} opacity="0.85" />
       </g>
     );
   }
 
+  // "normal": realistic almond iris + vertical slit pupil + catchlight,
+  // instead of a flat solid dot — this is what actually reads as a cat eye.
   return (
     <g>
       <g className="cat-eyes" style={{ transformOrigin: `${34}px ${hy}px` }}>
-        <ellipse cx="34" cy={hy} rx="3" ry="4" fill={furDark} />
-        <circle cx="35" cy={hy - 1.4} r="0.9" fill="#fff" opacity="0.85" />
-        <ellipse cx="50" cy={hy} rx="3" ry="4" fill={furDark} />
-        <circle cx="51" cy={hy - 1.4} r="0.9" fill="#fff" opacity="0.85" />
+        <ellipse cx="34" cy={hy} rx="3.4" ry="4" fill={eye} />
+        <ellipse cx="34" cy={hy} rx="0.9" ry="3.5" fill={furDark} />
+        <circle cx="35" cy={hy - 1.4} r="0.9" fill="#fff" opacity="0.9" />
+        <ellipse cx="50" cy={hy} rx="3.4" ry="4" fill={eye} />
+        <ellipse cx="50" cy={hy} rx="0.9" ry="3.5" fill={furDark} />
+        <circle cx="51" cy={hy - 1.4} r="0.9" fill="#fff" opacity="0.9" />
       </g>
       <path d={`M40 ${8 + hy} Q42 ${11 + hy} 44 ${8 + hy}`} fill="none" stroke={furDark} strokeWidth="1.5" strokeLinecap="round" />
       <path d={`M42 ${8 + hy} L42 ${5 + hy}`} fill="none" stroke={furDark} strokeWidth="1.5" strokeLinecap="round" />
