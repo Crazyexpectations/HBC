@@ -1,10 +1,10 @@
 import { motion } from 'framer-motion';
 import Section from '../layout/Section';
 import MemoryMatchGame from './MemoryMatchGame';
-import CatchGame from './CatchGame';
+import QuizGame from './QuizGame';
 
 // No roaming cat in this section on purpose — it would wander over the
-// falling hearts and get in the way of actually playing the game.
+// game cards and get in the way of actually playing.
 export default function GamesSection() {
   return (
     <Section id="games" bgClassName="bg-gradient-to-b from-midnight via-[#331722] to-midnight-deep" className="gap-10">
@@ -37,7 +37,7 @@ export default function GamesSection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="w-full max-w-xl"
         >
-          <CatchGame />
+          <QuizGame />
         </motion.div>
       </div>
     </Section>

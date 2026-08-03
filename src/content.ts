@@ -64,6 +64,46 @@ export const CAKE = {
   afterMessage: 'Whatever you wished for — I hope it comes true. And if it was about us, I already said yes. 🎂',
 };
 
+// A little "how well do you know us" quiz. Unlike REASONS above, these
+// questions genuinely need YOUR real answers — she should get them right
+// (or close to it) because she knows you two, not because they're guessable
+// general trivia. `correctIndex` is which option (0-based) is the real
+// answer. Get a perfect score and the gift box below the quiz opens.
+export const QUIZ = {
+  title: 'How Well Do You Know Us?',
+  subtitle: 'Get every question right and something opens up below.',
+  perfectTitle: 'You unlocked something 🎁',
+  perfectText: "Of course you got them all right — you know us better than anyone. I love you.",
+  tryAgainText: 'So close — want to try again?',
+  questions: [
+    {
+      question: 'Where was our first date?',
+      options: ['Edit me: the real place', 'Edit me: a wrong answer', 'Edit me: another wrong answer'],
+      correctIndex: 0,
+    },
+    {
+      question: 'What song do we always end up playing?',
+      options: ['Edit me: a wrong answer', 'Edit me: the real song', 'Edit me: another wrong answer'],
+      correctIndex: 1,
+    },
+    {
+      question: "What's the nickname I have for you?",
+      options: ['Edit me: the real nickname', 'Edit me: a wrong answer', 'Edit me: another wrong answer'],
+      correctIndex: 0,
+    },
+    {
+      question: 'Where do I want to travel with you one day?',
+      options: ['Edit me: a wrong answer', 'Edit me: another wrong answer', 'Edit me: the real place'],
+      correctIndex: 2,
+    },
+    {
+      question: 'What do you always steal off my plate?',
+      options: ['Edit me: the real answer', 'Edit me: a wrong answer', 'Edit me: another wrong answer'],
+      correctIndex: 0,
+    },
+  ],
+};
+
 export const SURPRISE = {
   title: 'One more thing…',
   subtitle: 'Tap the box.',
