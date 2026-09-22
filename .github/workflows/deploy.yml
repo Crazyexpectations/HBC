@@ -21,7 +21,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          # 22, not 20: camera-controls (pulled in by @react-three/drei)
+          # declares `engines: node >=22`, which on 20 made every run open
+          # with an EBADENGINE warning for a package the 3D scenes depend on.
+          node-version: 22
           cache: npm
       - run: npm ci
       - run: npm run build
