@@ -8,20 +8,26 @@ import CakeSection from './components/cake/CakeSection';
 import SurpriseSection from './components/surprise/SurpriseSection';
 import EndingSection from './components/ending/EndingSection';
 
-// The full scrollable story, in order. Lenis (mounted in App via
-// LenisProvider) smooth-scrolls through all of it.
+// The full scrollable story, in order. Section `tone`s run arrival → inside →
+// warm → lit → dawn → close, so the background travels from deep night to
+// first light as you scroll rather than repeating one gradient eight times.
 export default function MainSite() {
   return (
-    <main className="relative w-full">
+    <>
+      <a href="#memories" className="skip-link">
+        Skip to the photos
+      </a>
       <ScrollProgressBar />
-      <HeroSection />
-      <MemoriesSection />
-      <LetterSection />
-      <ReasonsSection />
-      <GamesSection />
-      <CakeSection />
-      <SurpriseSection />
-      <EndingSection />
-    </main>
+      <main id="main" className="relative w-full">
+        <HeroSection />
+        <MemoriesSection />
+        <LetterSection />
+        <ReasonsSection />
+        <GamesSection />
+        <CakeSection />
+        <SurpriseSection />
+        <EndingSection />
+      </main>
+    </>
   );
 }

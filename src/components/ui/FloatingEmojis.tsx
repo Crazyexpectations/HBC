@@ -38,7 +38,9 @@ export default function FloatingEmojis({
   );
 
   return (
-    <div className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
+    // `motion-decorative` lets the global reduced-motion rule in index.css
+    // remove this outright — a frozen emoji stranded mid-air is worse than none.
+    <div aria-hidden className={`motion-decorative pointer-events-none absolute inset-0 overflow-hidden ${className}`}>
       {pieces.map((p) => (
         <span
           key={p.id}

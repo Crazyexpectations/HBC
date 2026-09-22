@@ -15,7 +15,13 @@ export default function CustomCursor() {
   const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setEnabled(window.matchMedia('(hover: hover) and (pointer: fine)').matches);
+    // The ring trails the pointer on an eased timeline and clicks spawn
+    // animated hearts — both are motion, and the whole thing also hides the
+    // real system cursor. Anyone who asked for reduced motion keeps their
+    // native pointer instead.
+    const fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setEnabled(fine && !reduced);
   }, []);
 
   useEffect(() => {

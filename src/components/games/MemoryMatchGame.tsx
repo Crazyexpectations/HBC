@@ -88,7 +88,9 @@ export default function MemoryMatchGame() {
   };
 
   return (
-    <div className="glass w-full max-w-xl rounded-2xl p-5 sm:p-7">
+    // Width is owned by the parent section now — an internal max-w here left
+    // the card sitting off-centre inside the stacked games column.
+    <div className="surface w-full rounded-2xl p-5 sm:p-7">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="font-display text-xl text-cream sm:text-2xl">Match Our Memories</h3>
         <span className="text-xs text-cream/60">{moves} moves</span>

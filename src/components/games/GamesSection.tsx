@@ -1,44 +1,32 @@
-import { motion } from 'framer-motion';
 import Section from '../layout/Section';
+import SectionHeading from '../layout/SectionHeading';
+import Reveal from '../layout/Reveal';
 import MemoryMatchGame from './MemoryMatchGame';
-import QuizGame from './QuizGame';
+import WishList from './WishList';
+import { riseIn } from '../../lib/motion';
+import { GAMES_HEADING } from '../../content';
 
-// No roaming cat in this section on purpose — it would wander over the
-// game cards and get in the way of actually playing.
+// No roaming cat in this section on purpose — it would wander over the game
+// cards and get in the way of actually playing.
 export default function GamesSection() {
   return (
-    <Section id="games" bgClassName="bg-gradient-to-b from-midnight via-[#331722] to-midnight-deep" className="gap-10">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.6 }}
-        transition={{ duration: 0.7 }}
-        className="relative z-10 mb-4 text-center"
-      >
-        <p className="mb-2 text-xs uppercase tracking-[0.4em] text-rose-light/70">okay, one more thing before cake</p>
-        <h2 className="font-display text-glow text-4xl font-bold text-cream sm:text-5xl">Play With Me</h2>
-        <p className="mt-3 text-sm text-cream/60">two tiny games, made just for you</p>
-      </motion.div>
+    <Section id="games" tone="warm" density="natural" label="Games" className="gap-14">
+      <SectionHeading
+        eyebrow={GAMES_HEADING.eyebrow}
+        title={GAMES_HEADING.title}
+        sub={GAMES_HEADING.sub}
+      />
 
-      <div className="relative z-10 grid w-full max-w-5xl grid-cols-1 justify-items-center gap-8 lg:grid-cols-2">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="w-full max-w-xl"
-        >
+      {/* Stacked rather than side-by-side. Two dense interactive panels sitting
+          shoulder to shoulder made both feel cramped and forced a hard choice
+          about which to look at first; in sequence each gets full attention. */}
+      <div className="relative z-10 flex w-full max-w-3xl flex-col gap-16">
+        <Reveal variants={riseIn(30)}>
           <MemoryMatchGame />
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="w-full max-w-xl"
-        >
-          <QuizGame />
-        </motion.div>
+        </Reveal>
+        <Reveal variants={riseIn(30)}>
+          <WishList />
+        </Reveal>
       </div>
     </Section>
   );

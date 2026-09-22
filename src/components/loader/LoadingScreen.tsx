@@ -71,9 +71,12 @@ export default function LoadingScreen() {
       key="loader"
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, transition: { duration: 0.7, ease: 'easeInOut' } }}
-      className="fixed inset-0 z-[300] flex flex-col items-center justify-center overflow-hidden bg-midnight-deep"
+      className="grain fixed inset-0 z-[300] flex flex-col items-center justify-center overflow-hidden bg-night-deep"
     >
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(255,92,138,0.14),transparent_60%)]" />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(232,62,99,0.15),transparent_60%)]"
+      />
 
       <motion.div
         animate={{ scale: [1, 1.15, 1] }}

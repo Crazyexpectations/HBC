@@ -1,11 +1,14 @@
 import { motion } from 'framer-motion';
 import confetti from 'canvas-confetti';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { EASE } from '../../lib/motion';
 
 interface Props {
   emoji: string;
   title: string;
   text: string;
   index: number;
+  featured?: boolean;
 }
 
 const heart = confetti.shapeFromText({ text: '❤️', scalar: 2 });
@@ -17,40 +20,57 @@ function burst(x: number, y: number) {
     startVelocity: 28,
     scalar: 0.9,
     shapes: [heart],
-    colors: ['#e0355c', '#9c1f3f', '#f5a8b8'],
+    colors: ['#e83e63', '#9c1f3f', '#f7b3c1'],
     origin: { x, y },
     gravity: 0.9,
     ticks: 130,
   });
 }
 
-export default function ReasonCard({ emoji, title, text, index }: Props) {
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    const x = e.clientX / window.innerWidth;
-    const y = e.clientY / window.innerHeight;
-    burst(x, y);
+export default function ReasonCard({ emoji, title, text, index, featured = false }: Props) {
+  const reduced = useReducedMotion();
+
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    // Skipped under reduced motion: a burst of physics-driven particles is
+    // exactly the kind of thing the preference is asking us not to do.
+    if (reduced) return;
+    burst(e.clientX / window.innerWidth, e.clientY / window.innerHeight);
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 40, scale: 0.92 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: 0.55, delay: (index % 4) * 0.08, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ y: -10, rotate: index % 2 === 0 ? -1.5 : 1.5 }}
+    <motion.button
+      type="button"
+      initial={reduced ? { opacity: 0 } : { opacity: 0, y: 36, scale: 0.94 }}
+      whileInView={reduced ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.55, delay: (index % 4) * 0.07, ease: EASE }}
+      whileHover={reduced ? undefined : { y: -8, rotate: index % 2 === 0 ? -1.2 : 1.2 }}
       onClick={handleClick}
       data-cursor="hover"
-      className="glass group relative cursor-pointer rounded-2xl p-6 text-center shadow-lg shadow-black/20 transition-shadow hover:shadow-rose/20"
+      className={[
+        'surface group relative flex cursor-pointer flex-col rounded-2xl p-5 text-left transition-shadow hover:shadow-rose/20 sm:p-6',
+        featured ? 'col-span-2 sm:col-span-2' : '',
+      ].join(' ')}
     >
-      <motion.div
-        className="mb-3 text-4xl"
-        whileHover={{ scale: 1.3, rotate: [0, -10, 10, 0] }}
+      {/* Index numeral — gives the set a sense of being a real enumerated list
+          instead of a scatter of emoji tiles. */}
+      <span className="font-display absolute right-4 top-3 text-[length:var(--text-step-1)] leading-none text-gold-soft/20">
+        {String(index + 1).padStart(2, '0')}
+      </span>
+
+      <motion.span
+        className="mb-3 block text-3xl"
+        whileHover={reduced ? undefined : { scale: 1.25, rotate: [0, -9, 9, 0] }}
         transition={{ duration: 0.5 }}
+        aria-hidden
       >
         {emoji}
-      </motion.div>
-      <h3 className="font-display mb-2 text-lg font-semibold text-rose-light">{title}</h3>
-      <p className="text-sm leading-relaxed text-cream/75">{text}</p>
-    </motion.div>
+      </motion.span>
+
+      <h3 className="font-display mb-1.5 text-[length:var(--text-step-1)] font-semibold leading-snug text-rose-light">
+        {title}
+      </h3>
+      <p className="text-[length:var(--text-step--1)] leading-relaxed text-cream/72">{text}</p>
+    </motion.button>
   );
 }

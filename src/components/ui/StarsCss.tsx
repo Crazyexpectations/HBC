@@ -15,7 +15,7 @@ export default function StarsCss({ count = 60 }: { count?: number }) {
   ).current;
 
   return (
-    <div className="pointer-events-none absolute inset-0">
+    <div aria-hidden className="pointer-events-none absolute inset-0">
       {stars.map((s, i) => (
         <span
           key={i}

@@ -19,8 +19,8 @@ interface AppState {
   cakeCompleted: boolean;
   markCakeCompleted: () => void;
 
-  ringRevealed: boolean;
-  revealRing: () => void;
+  lanternReleased: boolean;
+  releaseLantern: () => void;
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
@@ -47,6 +47,6 @@ export const useAppStore = create<AppState>((set, get) => ({
   cakeCompleted: false,
   markCakeCompleted: () => set({ cakeCompleted: true }),
 
-  ringRevealed: false,
-  revealRing: () => set({ ringRevealed: true }),
+  lanternReleased: false,
+  releaseLantern: () => set({ lanternReleased: true }),
 }));

@@ -1,18 +1,26 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import Typewriter from './Typewriter';
-import { LOVE_LETTER, YOUR_SIGNATURE } from '../../content';
+import LetterPaper from './LetterPaper';
+import { LETTER } from '../../content';
 
 type Stage = 'closed' | 'opening' | 'expanded';
 
-export default function Envelope() {
+interface Props {
+  /** Fires once the paper has actually unfolded, so the section can stop
+   *  centring itself in one viewport and let the letter run as long as it is. */
+  onExpand?: () => void;
+}
+
+export default function Envelope({ onExpand }: Props) {
   const [stage, setStage] = useState<Stage>('closed');
-  const [letterDone, setLetterDone] = useState(false);
 
   const open = () => {
     if (stage !== 'closed') return;
     setStage('opening');
-    setTimeout(() => setStage('expanded'), 750);
+    setTimeout(() => {
+      setStage('expanded');
+      onExpand?.();
+    }, 750);
   };
 
   return (
@@ -24,11 +32,16 @@ export default function Envelope() {
             exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.4 } }}
             className="relative"
           >
-            <motion.div
+            {/* A real button, not a clickable div — this is the single most
+                important thing to open on the page, and it used to be
+                unreachable by keyboard entirely. */}
+            <motion.button
+              type="button"
               onClick={open}
+              aria-label="Open the letter"
               data-cursor="hover"
               whileHover={stage === 'closed' ? { y: -6, scale: 1.02 } : {}}
-              className="relative h-52 w-72 cursor-pointer sm:h-64 sm:w-96"
+              className="relative block h-52 w-72 cursor-pointer sm:h-64 sm:w-96"
               style={{ transformStyle: 'preserve-3d' }}
             >
               {/* envelope body */}
@@ -77,7 +90,7 @@ export default function Envelope() {
               >
                 ❤
               </motion.div>
-            </motion.div>
+            </motion.button>
 
             {stage === 'closed' && (
               <motion.p
@@ -86,35 +99,12 @@ export default function Envelope() {
                 transition={{ delay: 0.4 }}
                 className="mt-6 text-center text-xs uppercase tracking-[0.3em] text-cream/60"
               >
-                tap the envelope to open it
+                {LETTER.openHint}
               </motion.p>
             )}
           </motion.div>
         ) : (
-          <motion.div
-            key="letter"
-            layoutId="letter-paper"
-            initial={{ opacity: 0.6 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="relative w-full max-w-xl rounded-md bg-cream px-6 py-10 shadow-2xl shadow-black/50 sm:px-12 sm:py-14"
-          >
-            <div className="pointer-events-none absolute inset-0 rounded-md bg-[radial-gradient(circle_at_20%_10%,rgba(0,0,0,0.05),transparent_50%)]" />
-            <Typewriter paragraphs={LOVE_LETTER} active msPerChar={14} onDone={() => setLetterDone(true)} />
-
-            <AnimatePresence>
-              {letterDone && (
-                <motion.p
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, duration: 0.6 }}
-                  className="font-script mt-2 text-right text-3xl text-rose-deep"
-                >
-                  {YOUR_SIGNATURE}
-                </motion.p>
-              )}
-            </AnimatePresence>
-          </motion.div>
+          <LetterPaper key="letter" />
         )}
       </AnimatePresence>
     </div>

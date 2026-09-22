@@ -16,6 +16,11 @@ export function LenisProvider({ active, children }: { active: boolean; children:
 
   useEffect(() => {
     if (!active) return;
+    // Smooth scroll is itself a motion effect: it decouples the page from the
+    // user's input and eases it. Under prefers-reduced-motion we skip Lenis
+    // entirely and let the browser scroll natively — consumers already handle
+    // a null instance by falling back to window.scrollTo.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const instance = new Lenis({
       duration: 1.1,
