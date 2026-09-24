@@ -152,18 +152,13 @@ framed black panel telling her to **turn her volume up** and **watch it till
 the end** — and nothing about the video is visible or downloaded until she
 taps it.
 
-**Drop the file at `public/video/for-her.mp4`.** Full instructions, including
-the compression command and how to check it worked, are in
-[`VIDEO-SETUP.md`](VIDEO-SETUP.md).
+The file is committed at `public/video/for-her.mp4` — 720p, 8 min 14 sec,
+77 MB, down from a 562 MB 1080p source. To replace it, see
+[`VIDEO-SETUP.md`](VIDEO-SETUP.md): it has the exact ffmpeg command and the
+reason for each flag.
 
-⚠️ **Compress it before you commit.** GitHub rejects any single file over
-100 MB, and a 6–7 minute phone video is usually many times that. The push
-fails, not the build, and the error isn't obvious. One command:
-
-```bash
-ffmpeg -i input.mp4 -vf "scale=-2:720" -c:v libx264 -crf 26 -preset slow \
-  -c:a aac -b:a 128k -movflags +faststart public/video/for-her.mp4
-```
+⚠️ **Any replacement must be compressed first.** GitHub rejects single files
+over 100 MB, and that failure happens on **push**, not on build.
 
 Three details in the player that are easy to break:
 
