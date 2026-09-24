@@ -266,6 +266,44 @@ Two things in there are load-bearing and look like they could be tidied away:
   collapses *duration* but not *delay*, and a sixty-word block staggered at
   28ms would still take a minute and a half to finish appearing.
 
+## Performance
+
+The page carries three WebGL scenes, a long letter, 110 photos and a video,
+so a few things are load-bearing. If the site ever starts feeling heavy
+again, check these first — they're where the weight goes.
+
+**3D is lazy *and* deferred.** Every `SceneCanvas` used to mount on first
+render, so opening the site immediately built three WebGL contexts — the
+cake's and the lantern's held GPU memory the whole time she was reading the
+letter, several screens above them. Each scene now lives in its own module
+behind `React.lazy`, wrapped in
+[`DeferredScene`](src/components/three/DeferredScene.tsx), which only mounts
+it once she's within 500px of it.
+
+Both halves matter. `lazy` alone wouldn't have helped much: every section
+renders on mount, so the chunks would have been fetched straight away
+anyway. The `IntersectionObserver` is what actually defers them.
+
+That took the entry payload from **1408 KB in a single chunk** to **536 KB**
+across four cacheable ones, with Three.js (864 KB of it) not fetched at all
+until a 3D scene is near. Scenes stay mounted once created — tearing a canvas
+down on scroll-out would rebuild the context, and lose lit candles or a
+released lantern, every time she scrolled past.
+
+**Nothing writes to React state on scroll.** The progress bar used to
+`setState` on every scroll frame, which is a React render plus a Framer
+Motion style commit per frame, for the whole length of the page, competing
+with Lenis's own smooth scroll. It writes `scaleX` straight to the element
+now and never re-renders. Anything else tracking scroll should do the same.
+
+**The letter animates in CSS, not JS.** Several hundred words, one keyframe
+and a `--i` delay each. See "THE LETTER" above.
+
+**The grain is off on phones.** It exists to stop big flat gradients banding
+on wide-gamut desktop displays. At 4.5% opacity it's invisible on a phone,
+but it's a tiled texture painted across the full height of every section —
+and the letter section alone is several screens tall.
+
 ## Accessibility
 
 `prefers-reduced-motion` is honoured throughout, and it's a single switch

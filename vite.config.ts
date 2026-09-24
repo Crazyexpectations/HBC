@@ -10,5 +10,23 @@ export default defineConfig({
   build: {
     assetsInlineLimit: 0,
     chunkSizeWarningLimit: 1600,
+    rollupOptions: {
+      output: {
+        // The 3D scenes are already split out by `lazy()`; this separates the
+        // remaining always-needed libraries from our own code so that editing
+        // content.ts doesn't invalidate a megabyte of vendor JS in her browser
+        // cache, and so the browser can parse them in parallel.
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return;
+          if (id.includes('/gsap/')) return 'gsap';
+          if (id.includes('/framer-motion/') || id.includes('/motion-dom/') || id.includes('/motion-utils/')) {
+            return 'motion';
+          }
+          if (id.includes('/react/') || id.includes('/react-dom/') || id.includes('/scheduler/')) {
+            return 'react';
+          }
+        },
+      },
+    },
   },
 });

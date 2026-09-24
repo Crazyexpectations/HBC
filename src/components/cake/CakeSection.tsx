@@ -1,10 +1,8 @@
-import { Suspense, useCallback, useEffect, useState } from 'react';
+import { lazy, useCallback, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles } from '@react-three/drei';
 import Section from '../layout/Section';
 import SectionHeading from '../layout/SectionHeading';
-import SceneCanvas from '../three/SceneCanvas';
-import Cake3D from './Cake3D';
+import DeferredScene from '../three/DeferredScene';
 import { useAppStore } from '../../store/useAppStore';
 import { useMicBlow } from '../../hooks/useMicBlow';
 import { launchFireworks } from '../../lib/fireworks';
@@ -13,6 +11,10 @@ import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { crossFade } from '../../lib/motion';
 import RoamingCat from '../cats/RoamingCat';
 import { CAKE } from '../../content';
+
+// Lazy + deferred: the cake is several screens down, so neither its chunk nor
+// its WebGL context should exist while she's still reading the letter.
+const CakeScene = lazy(() => import('./CakeScene'));
 
 export default function CakeSection() {
   const isMobile = useIsMobile();
@@ -66,23 +68,9 @@ export default function CakeSection() {
       <SectionHeading title={CAKE.title} sub={CAKE.subtitle} className="mb-6" />
 
       <div className="relative z-10 h-[380px] w-full max-w-lg sm:h-[440px]">
-        <SceneCanvas camera={{ position: [0, 1.6, 4.2], fov: 42 }}>
-          <Suspense fallback={null}>
-            <ambientLight intensity={0.55} />
-            <pointLight position={[3, 4, 3]} intensity={0.9} color="#ffdfa0" />
-            <pointLight position={[-3, 2, 3]} intensity={0.5} color="#e0708a" />
-            <directionalLight position={[-2, 3, 2]} intensity={0.5} />
-            <Sparkles
-              count={isMobile ? 12 : 25}
-              scale={4}
-              size={2.5}
-              speed={reduced ? 0 : 0.3}
-              color="#ffdfa0"
-              opacity={0.5}
-            />
-            <Cake3D />
-          </Suspense>
-        </SceneCanvas>
+        <DeferredScene>
+          <CakeScene isMobile={isMobile} reduced={reduced} />
+        </DeferredScene>
       </div>
 
       <div className="relative z-10 mt-4 flex flex-col items-center gap-3">

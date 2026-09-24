@@ -1,13 +1,15 @@
-import { Suspense } from 'react';
+import { lazy } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Section from '../layout/Section';
 import Reveal from '../layout/Reveal';
-import SceneCanvas from '../three/SceneCanvas';
-import LanternRelease3D from './LanternRelease3D';
+import DeferredScene from '../three/DeferredScene';
 import RoamingCat from '../cats/RoamingCat';
 import { useAppStore } from '../../store/useAppStore';
 import { crossFade, riseIn } from '../../lib/motion';
 import { SURPRISE } from '../../content';
+
+// Lazy + deferred — this is the second-to-last section on the page.
+const LanternScene = lazy(() => import('./LanternScene'));
 
 export default function SurpriseSection() {
   const released = useAppStore((s) => s.lanternReleased);
@@ -52,16 +54,9 @@ export default function SurpriseSection() {
           className="motion-decorative animate-aura pointer-events-none absolute inset-0 m-auto h-64 w-64 rounded-full"
           style={{ background: 'radial-gradient(circle, rgba(255,180,92,0.4), transparent 68%)' }}
         />
-        <SceneCanvas camera={{ position: [0, 0.4, 5.2], fov: 42 }}>
-          <Suspense fallback={null}>
-            {/* Deliberately dim: the lantern's own point light is what should
-                be lighting this scene, not a studio rig. */}
-            <ambientLight intensity={0.25} />
-            <pointLight position={[-3, 2, -2]} intensity={0.35} color="#e8927e" />
-            <directionalLight position={[0, 4, 4]} intensity={0.2} color="#ffd9a0" />
-            <LanternRelease3D />
-          </Suspense>
-        </SceneCanvas>
+        <DeferredScene>
+          <LanternScene />
+        </DeferredScene>
       </div>
 
       {/* The lantern itself is a 3D object, so it can't be tabbed to or tapped
