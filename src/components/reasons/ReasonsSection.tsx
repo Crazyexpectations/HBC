@@ -6,7 +6,7 @@ import { REASONS, REASONS_HEADING } from '../../content';
 
 export default function ReasonsSection() {
   return (
-    <Section id="reasons" tone="inside" density="natural" label={REASONS_HEADING.title}>
+    <Section id="reasons" tone="warm" density="natural" label={REASONS_HEADING.title}>
       <RoamingCat palette="ginger" size={40} startDelay={4} />
 
       <SectionHeading

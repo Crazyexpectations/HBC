@@ -13,6 +13,22 @@ interface AppState {
   toggleMusic: () => void;
   startMusic: () => void;
 
+  /**
+   * Reasons the song is currently ducked, by name. While this is non-empty
+   * the player fades out and pauses, keeping its position, and fades back in
+   * when the last hold is released.
+   *
+   * It's a list rather than a boolean because two things duck the song for
+   * different reasons and can overlap: the video (she can't hear two audio
+   * tracks at once) and the cake's mic (the song coming out of her phone's
+   * speaker feeds straight back into the blow detector, which reads low
+   * frequencies — exactly where the music sits). A boolean would let
+   * whichever finished first turn the song back on over the other.
+   */
+  audioHolds: string[];
+  holdAudio: (reason: string) => void;
+  releaseAudio: (reason: string) => void;
+
   candlesLit: boolean[];
   lightCandle: (index: number) => void;
   extinguishAll: () => void;
@@ -32,6 +48,14 @@ export const useAppStore = create<AppState>((set, get) => ({
   setMusicReady: (ready) => set({ musicReady: ready }),
   toggleMusic: () => set((s) => ({ musicPlaying: !s.musicPlaying })),
   startMusic: () => set({ musicPlaying: true }),
+
+  audioHolds: [],
+  holdAudio: (reason) =>
+    set((s) => (s.audioHolds.includes(reason) ? s : { audioHolds: [...s.audioHolds, reason] })),
+  releaseAudio: (reason) =>
+    set((s) =>
+      s.audioHolds.includes(reason) ? { audioHolds: s.audioHolds.filter((r) => r !== reason) } : s
+    ),
 
   candlesLit: Array(CAKE.candleCount).fill(false),
   lightCandle: (index) =>

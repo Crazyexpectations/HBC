@@ -16,7 +16,7 @@ export default function LetterSection() {
     // somewhere below the fold.
     <Section
       id="letter"
-      tone="warm"
+      tone="inside"
       density={opened ? 'natural' : 'full'}
       label="A letter for you"
     >

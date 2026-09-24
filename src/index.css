@@ -155,6 +155,62 @@ body {
 }
 
 /* ---------------------------------------------------------------------------
+   THE LETTER — per-word reveal
+
+   The words fly up into place a few at a time as each block scrolls into
+   view, so the letter writes itself down the page rather than sitting there
+   as a wall of text.
+
+   This is CSS animation driven by a per-word `--i` delay, not one JS
+   animator per word, and that's deliberate: the letter runs to several
+   hundred words, and she is reading it on a phone. Mounting several hundred
+   JS-driven animators is how you get a letter that stutters while she's
+   trying to read it. Here the compositor does all of it — only `transform`
+   and `opacity` animate, and once a word has landed nothing is running.
+
+   A block gets `.is-visible` from a single IntersectionObserver in
+   LetterPaper.tsx. `both` fill keeps the word hidden before its delay
+   elapses and settled afterwards.
+   ------------------------------------------------------------------------ */
+@keyframes word-fly-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.8em, 0) scale(0.88);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.word {
+  display: inline-block;
+  opacity: 0;
+}
+
+.letter-block.is-visible .word {
+  animation: word-fly-in 0.6s var(--ease-out-soft) both;
+  animation-delay: calc(var(--i, 0) * 28ms);
+}
+
+/* The two or three lines that should land get a slower, larger arrival. */
+.letter-block.is-emphasis.is-visible .word {
+  animation-duration: 0.9s;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+/* Reduced motion: the global rule above already collapses the duration, but
+   it doesn't touch delay — and a 60-word block staggered at 28ms would still
+   take a minute and a half to finish appearing. Zero it, and make the words
+   visible outright in case animations never run at all. */
+@media (prefers-reduced-motion: reduce) {
+  .word {
+    opacity: 1;
+    animation-delay: 0ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
    texture
 
    A very fine grain over the whole page. Flat CSS gradients on a dark

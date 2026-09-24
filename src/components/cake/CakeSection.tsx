@@ -1,4 +1,4 @@
-import { Suspense, useCallback, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles } from '@react-three/drei';
 import Section from '../layout/Section';
@@ -21,6 +21,8 @@ export default function CakeSection() {
   const extinguishAll = useAppStore((s) => s.extinguishAll);
   const cakeCompleted = useAppStore((s) => s.cakeCompleted);
   const markCakeCompleted = useAppStore((s) => s.markCakeCompleted);
+  const holdAudio = useAppStore((s) => s.holdAudio);
+  const releaseAudio = useAppStore((s) => s.releaseAudio);
 
   const [sectionInView, setSectionInView] = useState(false);
   const litCount = candlesLit.filter(Boolean).length;
@@ -33,10 +35,24 @@ export default function CakeSection() {
     launchFireworks();
   }, [extinguishAll, markCakeCompleted]);
 
+  const listening = sectionInView && allLit && !cakeCompleted;
+
   const { status } = useMicBlow({
-    active: sectionInView && allLit && !cakeCompleted,
+    active: listening,
     onBlow: handleBlow,
   });
+
+  // Duck the song while the mic is open. It isn't politeness: the blow
+  // detector averages the low-frequency bins, which is exactly where the
+  // music sits, so a song playing out of her phone's speaker either drowns
+  // the blow or trips the threshold on its own.
+  useEffect(() => {
+    if (listening) holdAudio('cake');
+    else releaseAudio('cake');
+  }, [listening, holdAudio, releaseAudio]);
+
+  // Belt and braces: never leave the song ducked if she scrolls away mid-blow.
+  useEffect(() => () => releaseAudio('cake'), [releaseAudio]);
 
   return (
     <Section id="cake" tone="lit" density="full" label="Make a wish">

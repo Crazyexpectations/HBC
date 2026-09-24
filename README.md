@@ -147,12 +147,55 @@ of every chat app the link passes through.
 
 ## The video
 
-`VID20230615104225.mp4` (112 MB) was left out — it's over GitHub's 100 MB
-per-file limit and there was no video-compression tool available in the
-build environment. To include a moment from it later: trim/compress it
-(e.g. `ffmpeg -i input.mp4 -vf scale=-2:720 -crf 28 out.mp4`) down to a few
-MB, drop it in `public/video/`, and add a `<video>` element wherever you'd
-like it — e.g. inside the Memories section.
+There is a video section after the photos. It's sealed behind a cover — a
+framed black panel telling her to **turn her volume up** and **watch it till
+the end** — and nothing about the video is visible or downloaded until she
+taps it.
+
+**Drop the file at `public/video/for-her.mp4`.** Full instructions, including
+the compression command and how to check it worked, are in
+[`VIDEO-SETUP.md`](VIDEO-SETUP.md).
+
+⚠️ **Compress it before you commit.** GitHub rejects any single file over
+100 MB, and a 6–7 minute phone video is usually many times that. The push
+fails, not the build, and the error isn't obvious. One command:
+
+```bash
+ffmpeg -i input.mp4 -vf "scale=-2:720" -c:v libx264 -crf 26 -preset slow \
+  -c:a aac -b:a 128k -movflags +faststart public/video/for-her.mp4
+```
+
+Three details in the player that are easy to break:
+
+- `preload="none"` — she will open this on mobile data. Nothing downloads
+  until she taps.
+- `play()` is called **synchronously inside the click handler**, before the
+  state update. Browsers only let audio start from a real gesture; deferring
+  that call past a render (or into `requestAnimationFrame`) loses the gesture
+  and the video starts muted or not at all.
+- `playsInline` — without it, iOS Safari yanks the video fullscreen the
+  instant it plays.
+
+### Ducking the song
+
+The song never plays over something else. `audioHolds` in
+[`useAppStore`](src/store/useAppStore.ts) is a list of named reasons the
+music is currently held; the player fades out and pauses while it's
+non-empty, keeps its position, and fades back in when the last hold clears.
+
+Two things hold it:
+
+- **the video**, for as long as it's playing
+- **the cake**, while the mic is open
+
+The cake one isn't politeness. `useMicBlow` decides a blow happened by
+averaging the *low frequency* bins — exactly where the music sits — so a song
+coming out of her phone speaker either masks her breath or trips the
+threshold on its own.
+
+It's a list rather than a boolean because those two can overlap, and a
+boolean would let whichever finished first switch the song back on over the
+other.
 
 ## Project structure
 
@@ -161,15 +204,16 @@ src/
   content.ts              ← edit this for all text
   index.css               ← design system: palette, type scale, reduced-motion
   App.tsx                 ← loading → gate → site state machine
-  MainSite.tsx            ← the 8 sections, in order
+  MainSite.tsx            ← the 9 sections, in order
   lib/motion.ts           ← shared motion vocabulary (see below)
   hooks/useReducedMotion.ts
   components/
     layout/               ← Section / SectionHeading / Reveal primitives
     gate/                 ← "do you love me?" screen
-    hero/ memories/ letter/ reasons/ games/ cake/ surprise/ ending/
+    hero/ letter/ memories/ video/ reasons/ games/ cake/ surprise/ ending/
       letter/Envelope.tsx      ← the envelope, and opening it
-      letter/LetterPaper.tsx   ← the letter itself
+      letter/LetterPaper.tsx   ← the letter itself, word by word
+      video/VideoSection.tsx   ← the sealed video + audio ducking
       surprise/LanternRelease3D.tsx
     three/                ← shared 3D bits (gift box, canvas wrapper)
     ui/                   ← shared small UI (buttons, floating emoji, stars)
@@ -205,6 +249,27 @@ page — `full` would vertically centre a sheet several screens tall and leave
 the opening lines stranded below the fold — so
 [`LetterSection`](src/components/letter/LetterSection.tsx) switches it to
 `natural` once the paper unfolds.
+
+**The letter's words fly in as she scrolls**, a block at a time. That effect
+is plain CSS — a `word-fly-in` keyframe plus a per-word `--i` delay, under
+"THE LETTER" in [`index.css`](src/index.css) — driven by a single
+`IntersectionObserver` in `LetterPaper.tsx` that adds `.is-visible` to a
+block and then stops watching it.
+
+It is deliberately *not* one Framer Motion component per word. The letter is
+several hundred words long and she is reading it on a phone; several hundred
+JS-driven animators is how you get a letter that stutters while she's trying
+to read it. This way only `transform` and `opacity` animate, the compositor
+does all of it, and once a word has landed nothing is running at all.
+
+Two things in there are load-bearing and look like they could be tidied away:
+
+- the literal `{' '}` text node between word spans. `inline-block` elements
+  with no whitespace between them give the browser nowhere to wrap, which on
+  a phone runs every line straight off the edge of the page.
+- the reduced-motion override zeroing `animation-delay`. The global rule
+  collapses *duration* but not *delay*, and a sixty-word block staggered at
+  28ms would still take a minute and a half to finish appearing.
 
 ## Accessibility
 

@@ -57,6 +57,31 @@ export const WISHES = {
   ],
 };
 
+// ============================================================================
+//  THE VIDEO
+//
+//  Put the file at  public/video/for-her.mp4  (or change `src` below — it is
+//  relative to the site root, no leading slash). It stays hidden behind the
+//  cover until she taps, and `preload="none"` means nothing downloads before
+//  that — which matters, because she'll open this on mobile data.
+//
+//  ⚠️  GitHub refuses any file over 100 MB, so a 6–7 minute video has to be
+//  compressed first. See "The video" in the README for the exact command.
+// ============================================================================
+export const VIDEO = {
+  src: 'video/for-her.mp4',
+  eyebrow: 'the part I actually want you to see',
+  title: 'One More Thing To Watch',
+  // On the cover, before she opens it.
+  coverTitle: 'A video, just for you',
+  coverLines: ['turn your volume all the way up 🔊', 'and please watch it till the very end'],
+  coverButton: 'play it ▸',
+  // Under the player once it's open.
+  playingNote: 'the song will come back on when this finishes',
+  // Only ever seen if the file is missing or the browser can't play it.
+  failed: "This one didn't load — try refreshing the page?",
+};
+
 export const GAMES_HEADING = {
   eyebrow: 'okay, one more thing before cake',
   title: 'Play With Me',
